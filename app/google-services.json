@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "59824510653",
+    "firebase_url": "https://android-take-me.firebaseio.com",
+    "project_id": "android-take-me",
+    "storage_bucket": "android-take-me.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59824510653:android:5e9887729287f78b",
+        "android_client_info": {
+          "package_name": "com.example.opeyemi.takeme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "59824510653-e6ufijrqb5gcuap5ieindjn7240i3fns.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.opeyemi.takeme",
+            "certificate_hash": "3d0d26f929c61f95a48977c0befd5b97a44490db"
+          }
+        },
+        {
+          "client_id": "59824510653-nq73a4kt5ke6odohigeev6m2em0b3jkb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5HREl_lbywKgEPSAqWWmp683XBCe21-k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "59824510653-nq73a4kt5ke6odohigeev6m2em0b3jkb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

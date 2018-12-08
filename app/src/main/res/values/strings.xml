@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TakeMe</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="slogan">Be busy with your life, wether you are at home or in the office or on the beach, we will find you and we will feed you</string>
+</resources>

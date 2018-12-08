@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#10273e"
+    tools:context=".SplashScreen">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        >
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_take_me" />
+
+        <TextView
+            android:id="@+id/textSlogan"
+            android:layout_width="200dp"
+            android:textColor="@android:color/white"
+            android:layout_height="wrap_content"
+            android:text="@string/slogan"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:weightSum="2"
+        >
+
+        <Button
+            android:id="@+id/btn_sign_up_splash"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Sign Up"
+            android:textColor="@android:color/white"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_take_me"
+            android:layout_margin="8dp"
+            android:shadowColor="@android:color/black"
+            android:background="@color/btnSignUp"
+            />
+
+
+
+
+        <Button
+            android:id="@+id/btn_sign_in_splash"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Sign In"
+            android:textColor="@android:color/white"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_take_me"
+            android:layout_margin="8dp"
+            android:shadowColor="@android:color/black"
+            android:background="@color/btnSignActive"/>
+            <!--
+            android:buttonColor="@color/btnSignActive"
+            android:shadowEnabled="true"
+            android:shadowHeight="5dp"
+            android:cornerRadius="4dp"-->
+
+
+
+    </LinearLayout>
+</RelativeLayout>
