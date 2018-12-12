@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.opeyemi.takeme.common.Common;
 import com.example.opeyemi.takeme.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,7 +65,10 @@ public class SignInActivity extends AppCompatActivity {
                             User user = dataSnapshot.child(editPhone.getText().toString()).getValue(User.class);
                             if (user.getPassword().equals(editPassword.getText().toString())) {
                                 Toast.makeText(SignInActivity.this, "Signed in successfully !", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                                Intent homeIntent = new Intent(SignInActivity.this, MainActivity.class);
+                                Common.currentUser = user;
+                                startActivity(homeIntent);
+                                finish();
                             } else {
                                 Toast.makeText(SignInActivity.this, "wrong username or password", Toast.LENGTH_SHORT).show();
                             }

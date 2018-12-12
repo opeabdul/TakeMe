@@ -65,12 +65,8 @@
             android:src="@drawable/ic_take_me"
             android:layout_margin="8dp"
             android:shadowColor="@android:color/black"
-            android:background="@color/btnSignActive"/>
-            <!--
-            android:buttonColor="@color/btnSignActive"
-            android:shadowEnabled="true"
-            android:shadowHeight="5dp"
-            android:cornerRadius="4dp"-->
+            android:background="@color/btnSignActive" />
+
 
 
 
