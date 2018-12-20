@@ -1,23 +1,20 @@
 package com.example.opeyemi.takeme;
 
-import android.content.res.Resources;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
+import com.example.opeyemi.takeme.BottomNavigationViewHelper.BaseActivity;
 import com.example.opeyemi.takeme.BottomNavigationViewHelper.BottomNavigationViewHelper;
 import com.example.opeyemi.takeme.Interface.ItemClickListener;
 import com.example.opeyemi.takeme.MenuViewHolder.MenuVeiwHolder;
@@ -30,9 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Field;
-
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity{
 
     private TextView mTextMessage;
 
@@ -44,38 +39,13 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseRecyclerAdapter<Category, MenuVeiwHolder> mCategoryAdapter;
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
-                    return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
-                case R.id.navigation_profile:
-                    mTextMessage.setText(R.string.title_profile);
-                    return true;
-            }
-            return false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         mTextMessage = (TextView) findViewById(R.id.message);
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        BottomNavigationViewHelper.removeShiftMode(navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
 
         //init firebase
         FirebaseDatabase  database = FirebaseDatabase.getInstance();
@@ -136,10 +106,28 @@ public class MainActivity extends AppCompatActivity {
         menuRecyclerView.setAdapter(mCategoryAdapter);
     }
 
+    //overriding BaseActivity method
+    public int getContentViewId(){
+        return R.layout.activity_main;
+    }
+
+    public int getNavigationMenuItemId(){
+        return R.id.navigation_home;
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
         mCategoryAdapter.startListening();
+    }
+
+    // Remove inter-activity transition to avoid screen tossing on tapping bottom navigation items
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
     }
 
     @Override
@@ -147,4 +135,5 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         mCategoryAdapter.stopListening();
     }
+
 }

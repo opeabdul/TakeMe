@@ -22,21 +22,15 @@
         android:id="@+id/menu_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
         android:layout_below="@+id/message"
         android:layout_above="@+id/navigation" />
 
-    <android.support.design.widget.BottomNavigationView
+    <include
         android:id="@+id/navigation"
+        layout="@layout/element_bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:background="?android:attr/windowBackground"
         android:layout_alignParentBottom="true"
-        android:animateLayoutChanges="false"
-        app:menu="@menu/navigation"
-        android:splitMotionEvents="false"
         />
 
 
