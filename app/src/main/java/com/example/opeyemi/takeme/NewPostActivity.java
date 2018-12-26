@@ -2,10 +2,9 @@ package com.example.opeyemi.takeme;
 
 
 
-import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
 import android.widget.TextView;
-import com.example.opeyemi.takeme.BottomNavigationViewHelper.BaseActivity;
+import com.example.opeyemi.takeme.bottomNavigationViewHelper.BaseActivity;
 
 
 public class NewPostActivity extends BaseActivity {

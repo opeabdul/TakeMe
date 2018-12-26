@@ -1,4 +1,4 @@
-package com.example.opeyemi.takeme.MenuViewHolder;
+package com.example.opeyemi.takeme.viewHolders;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;

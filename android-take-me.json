@@ -1,0 +1,56 @@
+{
+  "category" : {
+    "01" : {
+      "image" : "https://i.amz.mshcdn.com/ij6Fj5f799AVltttFUiI96gxYaA=/950x534/filters:quality(90)/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F818521%2F5809666d-8a76-4631-9de2-3f1cfda9ac52.jpg",
+      "name" : "FINGER FOODS"
+    },
+    "02" : {
+      "image" : "https://cdn-hit.scadigital.io/media/23414/puppies.jpg?preset=MainImage",
+      "name" : "WESTERN SOUP"
+    },
+    "03" : {
+      "image" : "https://vetstreet.brightspotcdn.com/dims4/default/5b3ffe7/2147483647/thumbnail/180x180/quality/90/?url=https%3A%2F%2Fvetstreet-brightspot.s3.amazonaws.com%2F8e%2F4e3910c36111e0bfca0050568d6ceb%2Ffile%2Fhub-dogs-puppy.jpg",
+      "name" : "MEDIFOODS DELIGHT"
+    },
+    "04" : {
+      "image" : "https://assets.parents.com/s3fs-public/styles/nfp_1080_portrait/public/images/550_101529473.jpg?qkPLqQfbuDLnv9gdH84m9Aew6h8ufik1",
+      "name" : "FINGER FOODS"
+    },
+    "05" : {
+      "image" : "https://i.ytimg.com/vi/G-5YUfEUpRM/maxresdefault.jpg",
+      "name" : "WESTERN SOUP"
+    },
+    "06" : {
+      "image" : "https://www.facsniagara.on.ca/wp-content/uploads/2018/02/baby.jpg",
+      "name" : "MEDIFOODS DELIGHT"
+    }
+  },
+  "user" : {
+    "07062709410" : {
+      "name" : "opeyemi",
+      "password" : "1234"
+    },
+    "08060647518" : {
+      "name" : "Abdulsalam Opeyemi",
+      "password" : "1234"
+    },
+    "08157549023" : {
+      "name" : "abdulsalam",
+      "password" : "1234"
+    }
+  },
+  "messages" : {
+    "-K2ib4H77rj0LYewF7dP" : {
+      "text" : "Hello",
+      "name" : "anonymous"
+    },
+    "-K2ib5JHRbbL0NrztUfO" : {
+      "text" : "How are you",
+      "name" : "anonymous"
+    },
+    "-K2ib62mjHh34CAUbide" : {
+      "text" : "I am fine",
+      "name" : "anonymous"
+    }
+  }
+}

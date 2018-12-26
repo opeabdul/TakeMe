@@ -1,15 +1,10 @@
-package com.example.opeyemi.takeme.BottomNavigationViewHelper;
+package com.example.opeyemi.takeme.bottomNavigationViewHelper;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
-import android.view.MenuItem;
-
-import com.example.opeyemi.takeme.MainActivity;
-import com.example.opeyemi.takeme.R;
 
 import java.lang.reflect.Field;
 

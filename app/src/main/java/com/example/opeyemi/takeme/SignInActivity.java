@@ -91,4 +91,15 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+        if(Common.currentUser != null){
+            startActivity(new Intent (SignInActivity.this, MainActivity.class));
+        }
+
+
+    }
 }

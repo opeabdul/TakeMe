@@ -1,5 +1,5 @@
 
-package com.example.opeyemi.takeme.BottomNavigationViewHelper;
+package com.example.opeyemi.takeme.bottomNavigationViewHelper;
 
 import android.content.Intent;
 import android.os.Bundle;

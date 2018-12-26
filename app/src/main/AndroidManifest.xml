@@ -22,7 +22,18 @@
         </activity>
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ProfileActivity" />
-        <activity android:name=".ChatActivity" />
+        <activity android:name=".ChatActivity" >
+            <intent-filter>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data
+                android:host="friendlychat.firebase.google.com"
+                android:scheme="http"
+                android:pathPrefix="/message"
+                />
+            </intent-filter>
+        </activity>
         <activity android:name=".NewPostActivity"></activity>
     </application>
 
