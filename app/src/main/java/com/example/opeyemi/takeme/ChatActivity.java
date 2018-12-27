@@ -1,6 +1,7 @@
 package com.example.opeyemi.takeme;
 
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -36,7 +38,10 @@ import com.example.opeyemi.takeme.model.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.appindexing.Action;
 import com.google.firebase.appindexing.FirebaseAppIndex;
@@ -48,8 +53,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 
 public class ChatActivity extends BaseActivity {
@@ -74,9 +81,11 @@ public class ChatActivity extends BaseActivity {
     private ProgressBar mProgressBar;
     private EditText mMessageEditText;
     private ImageView mAddMessageImageView;
+    private ImageView mMessageImageView;
 
     //Firebase Instance Variables
     private DatabaseReference mFirebaseDatabaseReference;
+    private StorageReference mStorageReference;
     private FirebaseRecyclerAdapter<FriendlyMessage, MessageViewHolder> mFirebaseAdapter;
 
 
@@ -104,6 +113,7 @@ public class ChatActivity extends BaseActivity {
 
 
         //New child entries
+        mStorageReference = FirebaseStorage.getInstance().getReference();
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         SnapshotParser<FriendlyMessage> parser = new SnapshotParser<FriendlyMessage>() {
             @NonNull
@@ -174,7 +184,7 @@ public class ChatActivity extends BaseActivity {
                     else
                         {
                             Glide.with(holder.messageImageView.getContext())
-                                .load(friendlyMessage)
+                                .load(friendlyMessage.getImageUrl())
                                 .into(holder.messageImageView);
                         }
 
@@ -287,57 +297,66 @@ public class ChatActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: RequestCode = " + requestCode + ", resultcode = " + resultCode);
 
-        if(requestCode == REQUEST_IMAGE){
-            if(resultCode == RESULT_OK){
-                final Uri uri = data.getData();
-                Log.d(TAG,"Uri: " + uri.toString());
+        if (requestCode == REQUEST_IMAGE) {
+            if (resultCode == RESULT_OK) {
+                if (data != null){
+                    final Uri uri = data.getData();
+                    Log.d(TAG, "Uri: " + uri.toString());
 
-                FriendlyMessage tempMessage = new FriendlyMessage(null, mUsername,
-                        mPhotoUrl, LOADING_IMAGE_URL);
-                mFirebaseDatabaseReference.child(MESSAGES_CHILD).push()
-                        .setValue(tempMessage, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
-                                if (databaseError == null){
-                                    String key = databaseReference.getKey();
-                                    //mCurrentUser.getName need to FirebaseUser.getUid()
-                                    StorageReference storageReference =
-                                            FirebaseStorage.getInstance()
-                                            .getReference(mCurrentUser.getName())
-                                            .child(key)
-                                            .child(uri.getLastPathSegment());
+                    FriendlyMessage tempMessage = new FriendlyMessage(null, mUsername, mPhotoUrl,
+                            LOADING_IMAGE_URL);
+                    mFirebaseDatabaseReference.child(MESSAGES_CHILD).push()
+                            .setValue(tempMessage, new DatabaseReference.CompletionListener() {
+                                @Override
+                                public void onComplete(DatabaseError databaseError,
+                                                       DatabaseReference databaseReference) {
+                                    if (databaseError == null) {
+                                        String key = databaseReference.getKey();
+                                        StorageReference storageReference =
+                                                FirebaseStorage.getInstance()
+                                                        .getReference(mUsername)
+                                                        .child(key)
+                                                        .child(uri.getLastPathSegment());
 
-                                    putImageInStorage(storageReference, uri, key);
+                                        putImageInStorage(storageReference, uri, key);
+                                    } else {
+                                        Log.w(TAG, "Unable to write message to database.",
+                                                databaseError.toException());
+                                    }
                                 }
-                                else
-                                {
-                                    Log.w(TAG, "Unable to write message to database.",
-                                            databaseError.toException());
-                                }
-                            }
-                        });
+                            });
+                }
+
+
             }
         }
     }
 
-    private void putImageInStorage(StorageReference storageReference, Uri uri, final String key) {
+    private String getFileExtension(Uri uri) {
+        ContentResolver cr = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cr.getType(uri));
+    }
 
+    private void putImageInStorage(StorageReference storageReference, Uri uri, final String key) {
         storageReference.putFile(uri).addOnCompleteListener(ChatActivity.this,
                 new OnCompleteListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                if (task.isSuccessful()){
-                    FriendlyMessage friendlyMessage = new FriendlyMessage(null, mUsername,
-                            mPhotoUrl, task.getResult().getMetadata().getReference().getDownloadUrl()
-                            .toString());
-                    mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key)
-                            .setValue(friendlyMessage);
-                } else {
-                    Log.w(TAG, "Image upload task was not successful.",
-                            task.getException());
-                }
-            }
-        });
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            //database problem arises from this task.getResult
+                            //find a way to get the file stored download url from task
+                            FriendlyMessage friendlyMessage =
+                                    new FriendlyMessage(null, mUsername, mPhotoUrl,
+                                            task.getResult().toString());
+                            mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key)
+                                    .setValue(friendlyMessage);
+                        } else {
+                            Log.w(TAG, "Image upload task was not successful.",
+                                    task.getException());
+                        }
+                    }
+                });
     }
 
 
