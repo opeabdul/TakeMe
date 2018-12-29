@@ -14,7 +14,6 @@
             android:id="@+id/messengerImageView"
             android:layout_width="36dp"
             android:layout_height="36dp"
-
             android:src="@drawable/ic_account_circle_black_36dp"/>
 
         <LinearLayout
@@ -34,9 +33,10 @@
 
             <ImageView
                 android:id="@+id/messageImageView"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxHeight="70dp"
+                android:maxHeight="80dp"
+                android:maxWidth="80dp"
                 android:adjustViewBounds="true"
                 android:background="@color/colorPrimary"
                 android:scaleType="fitCenter"/>
@@ -51,5 +51,9 @@
 
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"/>
 
 </LinearLayout>

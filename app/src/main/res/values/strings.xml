@@ -32,4 +32,11 @@
     <string name="job_post_tab_title">Job Posts</string>
     <string name="details_tab_title">Details</string>
     <!--Profile section  ends-->
+
+    <!--Menu List section -->
+    <string name="icon_message_title">message</string>
+    <string name="icon_job_details_title">details</string>
+    <string name="icon_call_title">call</string>
+    <!--Profile section  ends-->
+
 </resources>

@@ -38,6 +38,7 @@ import com.example.opeyemi.takeme.model.User;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.SnapshotParser;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -72,8 +73,8 @@ public class ChatActivity extends BaseActivity {
     private String mUsername;
     private String mPhotoUrl = "https://www.classroomcapers.co.uk/media/catalog/product/cache/1/image/650x/040ec09b1e35df139433887a97daa66f/t/1/t10573lrg.jpg";
     private SharedPreferences mSharedPreferences;
-    //private static final String MESSAGE_URL = "http://friendlychat.firebase.google.com/message/";
-    private static final String MESSAGE_URL ="https://android-take-me.firebaseio.com/messages/";
+    private static final String MESSAGE_URL = "http://friendlychat.firebase.google.com/message/";
+    //private static final String MESSAGE_URL ="https://android-take-me.firebaseio.com/messages/";
 
     private Button mSendButton;
     private RecyclerView mMessageRecyclerView;
@@ -315,7 +316,6 @@ public class ChatActivity extends BaseActivity {
                                         StorageReference storageReference =
                                                 FirebaseStorage.getInstance()
                                                         .getReference(mUsername)
-                                                        .child(key)
                                                         .child(uri.getLastPathSegment());
 
                                         putImageInStorage(storageReference, uri, key);
@@ -338,25 +338,33 @@ public class ChatActivity extends BaseActivity {
         return mime.getExtensionFromMimeType(cr.getType(uri));
     }
 
-    private void putImageInStorage(StorageReference storageReference, Uri uri, final String key) {
-        storageReference.putFile(uri).addOnCompleteListener(ChatActivity.this,
-                new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            //database problem arises from this task.getResult
-                            //find a way to get the file stored download url from task
-                            FriendlyMessage friendlyMessage =
-                                    new FriendlyMessage(null, mUsername, mPhotoUrl,
-                                            task.getResult().toString());
-                            mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key)
-                                    .setValue(friendlyMessage);
-                        } else {
-                            Log.w(TAG, "Image upload task was not successful.",
-                                    task.getException());
-                        }
-                    }
-                });
+    private void putImageInStorage(final StorageReference storageReference, Uri uri, final String key) {
+
+        UploadTask uploadTask = storageReference.putFile(uri);
+        Task<Uri> newTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if(!task.isSuccessful()){
+                    throw task.getException();
+                }
+                return storageReference.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+
+                    FriendlyMessage friendlyMessage =
+                            new FriendlyMessage(null, mUsername, mPhotoUrl,
+                                    task.getResult().toString());
+                    mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key)
+                            .setValue(friendlyMessage);
+                } else {
+                    Log.w(TAG, "Image upload task was not successful.",
+                            task.getException());
+                }
+            }
+        });
     }
 
 
