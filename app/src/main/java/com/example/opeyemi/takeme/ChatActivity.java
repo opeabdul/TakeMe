@@ -96,9 +96,6 @@ public class ChatActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        TextView chatTitle = findViewById(R.id.chatActivityTitle);
-        chatTitle.setText(R.string.title_chat);
-
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Set default username is anonymous.

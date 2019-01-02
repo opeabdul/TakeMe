@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:layout_margin="8dp"
+    android:layout_marginVertical="8dp"
     app:cardCornerRadius="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="5dp"
         android:padding="8dp">
 
         <LinearLayout
@@ -59,7 +59,8 @@
                         android:src="@drawable/ic_account_circle_black_36dp" />
 
                     <TextView
-                        android:layout_width="79dp"
+                        android:id="@+id/job_owner_name_textView"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
                         android:layout_alignBottom="@+id/menu_account_image"
                         android:layout_marginLeft="-5dp"
@@ -67,8 +68,16 @@
                         android:layout_toEndOf="@+id/menu_account_image"
                         android:layout_toRightOf="@id/menu_account_image"
                         android:text="@string/developer_name" />
+                    <TextView
+                        android:id="@+id/post_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nov 15"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentTop="true"
+                        android:textSize="8sp"/>
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ImageView
                         android:id="@+id/menu_star"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -96,7 +105,7 @@
                         android:layout_alignBottom="@+id/menu_account_image"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:text="5.0" />
+                        android:text="(65)" />
                 </RelativeLayout>
 
                 <TextView
@@ -109,6 +118,7 @@
                     android:textStyle="italic" />
 
                 <TextView
+                    android:id="@+id/job_title_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -126,7 +136,7 @@
                     android:textStyle="italic" />
 
                 <TextView
-                    android:id="@+id/menu_job_description"
+                    android:id="@+id/menu_job_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -155,11 +165,12 @@
             android:weightSum="3">
 
             <LinearLayout
+                android:id="@+id/message_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_marginHorizontal="10dp"
                 android:layout_weight="1"
+                android:gravity="center"
                 android:background="@color/colorPrimary"
                 android:orientation="horizontal"
                 android:padding="5dp">
@@ -178,10 +189,10 @@
 
 
             <LinearLayout
+                android:id="@+id/job_details_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerInParent="true"
+                android:gravity="center"
                 android:layout_marginHorizontal="10dp"
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
@@ -202,10 +213,11 @@
 
 
             <LinearLayout
+                android:id="@+id/call_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_marginHorizontal="10dp"
+                android:gravity="center"
                 android:layout_weight="1"
                 android:background="@color/colorPrimary"
                 android:orientation="horizontal"

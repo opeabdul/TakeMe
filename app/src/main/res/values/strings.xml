@@ -39,4 +39,10 @@
     <string name="icon_call_title">call</string>
     <!--Profile section  ends-->
 
+    <!--Dialog-->
+    <string name="dialog_make_a_phone_call">Place a phone call to %1$s?</string>
+    <string name="call">CALL</string>
+    <string name="cancel">CANCEL</string>
+    <!--Dialog strings end-->
+
 </resources>

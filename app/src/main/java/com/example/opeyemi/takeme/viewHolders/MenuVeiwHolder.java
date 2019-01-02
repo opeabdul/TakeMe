@@ -8,18 +8,42 @@ import android.widget.TextView;
 import com.example.opeyemi.takeme.Interface.ItemClickListener;
 import com.example.opeyemi.takeme.R;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MenuVeiwHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-    public TextView menuNameTextView;
-    public ImageView menuImageView;
+    public TextView jobTitleTextView;
+    public ImageView jobImageView;
+    public TextView menuJobLocationTextView;
+    public TextView menuDateTextView;
+    public TextView menuJobRatersTextView;
+    public TextView menuJobRatingTextView;
+    public ImageView menuStar;
+    public TextView jobOwnerNameTextView;
+    public CircleImageView jobOwnerImageView;
+    public View messageView;
+    public View callView;
+    public View detailsView;
+
 
     private ItemClickListener itemClickListener;
 
     public MenuVeiwHolder(View itemView) {
         super(itemView);
 
-        menuNameTextView = itemView.findViewById(R.id.menu_job_description);
-        menuImageView = itemView.findViewById(R.id.menu_image);
+        jobTitleTextView = itemView.findViewById(R.id.job_title_textView);
+        jobImageView = itemView.findViewById(R.id.menu_image);
+        menuJobLocationTextView = itemView.findViewById(R.id.menu_job_location);
+        menuDateTextView = itemView.findViewById(R.id.post_date);
+        menuJobRatersTextView = itemView.findViewById(R.id.job_raters);
+        menuJobRatingTextView = itemView.findViewById(R.id.job_rating_textView);
+        menuStar = itemView.findViewById(R.id.menu_star);
+        jobOwnerNameTextView = itemView.findViewById(R.id.job_owner_name_textView);;
+        jobOwnerImageView = itemView.findViewById(R.id.menu_account_image);
+        messageView = itemView.findViewById(R.id.message_layout);
+        callView = itemView.findViewById(R.id.call_layout);
+        detailsView = itemView.findViewById(R.id.job_details_layout);
+
 
         itemView.setOnClickListener(this);
     }
@@ -31,7 +55,7 @@ public class MenuVeiwHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        itemClickListener.onClick(view, getAdapterPosition(), false);
+       // itemClickListener.onClick(view, getAdapterPosition(), false);
     }
 
 
