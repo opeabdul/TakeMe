@@ -5,6 +5,7 @@ public class User {
     private String name;
     private String password;
     private String phoneNumber;
+    private String image;
 
     public User(){
 
@@ -38,5 +39,13 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

@@ -1,34 +1,156 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context="com.example.opeyemi.takeme.MainActivity">
 
 
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:textSize="30sp"
-        android:id="@+id/newPostActivityTitle"
-        android:textAlignment="center"/>
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/job_title_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/rounded_corner"
+                app:met_floatingLabel="highlight"
+                android:hint="job Title" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/job_description_editText"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:scrollbars="none"
+                app:met_floatingLabel="highlight"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/rounded_corner"
+                android:gravity="top|start"
+                android:hint="job Description"
+                android:inputType="textMultiLine|textCapSentences" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="7dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+
+                    <ImageView
+                        android:id="@+id/new_job_image_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="150dp"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="7dp"
+                        android:background="@drawable/rounded_corner"
+                        android:minWidth="170dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:textColor="@android:color/black"
+                        android:text="@string/click_image" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                app:met_floatingLabel="highlight"
+                android:background="@drawable/rounded_corner"
+                android:hint="@string/price" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/rounded_corner"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/job_location"
+                        android:layout_marginBottom="7dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="10sp" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:met_floatingLabel="highlight"
+                        android:layout_marginBottom="7dp"
+                        android:background="@drawable/rounded_corner"
+                        android:hint="@string/job_location_address" />
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/job_location_area"
+                        app:met_floatingLabel="highlight"
+                        android:background="@drawable/rounded_corner"
+                        android:layout_marginBottom="7dp"/>
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/job_location_city"
+                        app:met_floatingLabel="highlight"
+                        android:background="@drawable/rounded_corner"
+                        android:layout_marginBottom="7dp"/>
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/job_location_state"
+                        app:met_floatingLabel="highlight"
+                        android:background="@drawable/rounded_corner"
+                        android:layout_marginBottom="7dp"/>
+
+                </LinearLayout>
+            </FrameLayout>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="@string/allow_call"/>
+
+            <include
+                android:id="@+id/navigation"
+                layout="@layout/element_bottom_navigation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                />
+        </LinearLayout>
+
+    </ScrollView>
 
 
 
 
-    <include
-        android:id="@+id/navigation"
-        layout="@layout/element_bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        />
 
-
-
-</RelativeLayout>

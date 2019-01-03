@@ -1,13 +1,8 @@
 package com.example.opeyemi.takeme;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -17,19 +12,21 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.opeyemi.takeme.Interface.CallDialFragment;
 import com.example.opeyemi.takeme.bottomNavigationViewHelper.BaseActivity;
-import com.example.opeyemi.takeme.Interface.ItemClickListener;
 import com.example.opeyemi.takeme.common.Common;
+import com.example.opeyemi.takeme.model.User;
 import com.example.opeyemi.takeme.viewHolders.MenuVeiwHolder;
 import com.example.opeyemi.takeme.model.Job;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import static com.example.opeyemi.takeme.Interface.CallDialFragment.makePhoneCall;
@@ -45,6 +42,7 @@ public class MainActivity extends BaseActivity{
     public RecyclerView.LayoutManager layoutManager;
 
     private FirebaseRecyclerAdapter<Job, MenuVeiwHolder> mCategoryAdapter;
+    DatabaseReference userRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +53,7 @@ public class MainActivity extends BaseActivity{
         DatabaseReference job = database.getReference("job");
         job.keepSynced(true);
 
+        userRef = FirebaseDatabase.getInstance().getReference("user");
         DatabaseReference jobRef = FirebaseDatabase.getInstance().getReference("job");
         Query query = jobRef.orderByKey();
 
@@ -75,12 +74,26 @@ public class MainActivity extends BaseActivity{
 
          mCategoryAdapter = new FirebaseRecyclerAdapter<Job, MenuVeiwHolder>(options) {
                     @Override
-                    protected void onBindViewHolder(@NonNull MenuVeiwHolder holder, int position, @NonNull Job model) {
+                    protected void onBindViewHolder(@NonNull final MenuVeiwHolder holder, int position, @NonNull final Job model) {
                         holder.jobTitleTextView.setText(model.getTitle());
                         Picasso.with(getBaseContext()).load(model.getImage())
                                 .into(holder.jobImageView);
 
-                        
+                        String jobUserId = model.getUserID();
+                        userRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                User user = dataSnapshot.child(model.getUserID().toString()).getValue(User.class);
+                                holder.jobOwnerNameTextView.setText(user.getName());
+                                /*TODO get user image*/
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
 
                         /*
                         final Job clickItem = model;

@@ -5,7 +5,9 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#cccccc"
+    android:paddingHorizontal="2dp">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/menu_recycler_view"
