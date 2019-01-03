@@ -83,7 +83,7 @@ public class MainActivity extends BaseActivity{
                         userRef.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                User user = dataSnapshot.child(model.getUserID().toString()).getValue(User.class);
+                                User user = dataSnapshot.child(model.getUserID()).getValue(User.class);
                                 holder.jobOwnerNameTextView.setText(user.getName());
                                 /*TODO get user image*/
                             }
@@ -140,7 +140,7 @@ public class MainActivity extends BaseActivity{
                         return new MenuVeiwHolder(view);
                     }
 
-                };
+         };
 
         menuRecyclerView.setAdapter(mCategoryAdapter);
     }

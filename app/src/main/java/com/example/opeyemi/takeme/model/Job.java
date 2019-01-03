@@ -2,14 +2,14 @@ package com.example.opeyemi.takeme.model;
 
 public class Job {
 
-    private String title,description, image, location, price, time, date, applicants, categoryId, userID;
+    private String title,description, image, location, price, day, month, categoryId, userID;
 
     private Job(){
 
     }
 
-    private Job(String title, String description, String image, String location,
-                String price, String time, String date, String applicants,
+    public Job(String title, String description, String image, String location,
+                String price, String day, String month,
                 String categoryId, String userId){
 
         this.title = title;
@@ -18,9 +18,8 @@ public class Job {
         this.image = image;
         this.location = location;
         this.price = price;
-        this.time = time;
-        this.date = date;
-        this.applicants = applicants;
+        this.day = day;
+        this.month = month;
         this.categoryId = categoryId;
         this.userID = userId;
     }
@@ -65,28 +64,20 @@ public class Job {
         this.price = price;
     }
 
-    public String getTime() {
-        return time;
+    public String getDay() {
+        return day;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDay(String day) {
+        this.day = day;
     }
 
-    public String getDate() {
-        return date;
+    public String getMonth() {
+        return month;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getApplicants() {
-        return applicants;
-    }
-
-    public void setApplicants(String applicants) {
-        this.applicants = applicants;
+    public void setMonth(String month) {
+        this.month = month;
     }
 
     public String getCategoryId() {
