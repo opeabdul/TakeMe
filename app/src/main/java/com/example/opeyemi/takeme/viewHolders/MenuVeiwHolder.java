@@ -45,7 +45,7 @@ public class MenuVeiwHolder extends RecyclerView.ViewHolder implements View.OnCl
         detailsView = itemView.findViewById(R.id.job_details_layout);
 
 
-        itemView.setOnClickListener(this);
+        detailsView.setOnClickListener(this);
     }
 
     public void setItemClickListener(ItemClickListener itemClickListener){
@@ -55,7 +55,7 @@ public class MenuVeiwHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     @Override
     public void onClick(View view) {
-       // itemClickListener.onClick(view, getAdapterPosition(), false);
+        itemClickListener.onClick(view, getAdapterPosition(), false);
     }
 
 

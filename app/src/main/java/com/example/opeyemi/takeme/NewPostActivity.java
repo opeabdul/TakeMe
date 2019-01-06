@@ -1,6 +1,9 @@
 package com.example.opeyemi.takeme;
 
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -16,12 +19,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.opeyemi.takeme.bottomNavigationViewHelper.BaseActivity;
 import com.example.opeyemi.takeme.common.Common;
 import com.example.opeyemi.takeme.model.Job;
+import com.example.opeyemi.takeme.model.Location;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -66,13 +71,13 @@ public class NewPostActivity extends BaseActivity {
     private String mAllowCall;
 
 
-
     FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
-    DatabaseReference jobDatabaseReference =  FirebaseDatabase.getInstance().getReference("job");
+    DatabaseReference jobDatabaseReference = FirebaseDatabase.getInstance().getReference("job");
 
 
     private Uri filePath;
     private final int REQUEST_IMAGE = 23;
+    private final String PLACEHOLDER_IMAGE = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwzU7U77Y1IGKuBQN3y7v5q95W6KY40wgtEOfQYECgvL7c8qPqTg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,15 +116,15 @@ public class NewPostActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK && data.getData() != null && data != null){
+        if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK && data.getData() != null && data != null) {
 
-                filePath = data.getData();
-            try{
+            filePath = data.getData();
+            try {
 
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 mJobImageView.setImageBitmap(bitmap);
 
-            }catch (IOException e){
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -158,7 +163,12 @@ public class NewPostActivity extends BaseActivity {
     }
 
     private void uploadImage() {
-        if (filePath != null){
+        if (filePath != null) {
+
+
+            final ProgressBar progressBar = findViewById(R.id.image_loading_progress_bar);
+            progressBar.setVisibility(View.VISIBLE);
+
             final StorageReference storageReference = mFirebaseStorage.getReference(Common.currentUser.getPhoneNumber())
                     .child(String.valueOf(System.currentTimeMillis()));
             UploadTask uploadTask = storageReference.putFile(filePath);
@@ -166,7 +176,7 @@ public class NewPostActivity extends BaseActivity {
             Task<Uri> task = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()){
+                    if (!task.isSuccessful()) {
                         throw task.getException();
                     }
                     return storageReference.getDownloadUrl();
@@ -176,14 +186,36 @@ public class NewPostActivity extends BaseActivity {
             task.addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
+                    progressBar.setVisibility(View.INVISIBLE);
                     createNewPost(task.getResult().toString());
                 }
             });
+        } else {
+            //image file has not been added
+            final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+            alertDialog.setTitle(R.string.upload_image)
+
+                    .setMessage(R.string.make_post_without_image)
+                    .setIcon(R.drawable.ic_image_black_26dp)
+
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //create a new post using a placeholder image already in the database
+                            createNewPost(PLACEHOLDER_IMAGE);
+                        }
+                    })
 
 
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    });
 
-
-
+            alertDialog.show();
         }
     }
 
@@ -197,7 +229,7 @@ public class NewPostActivity extends BaseActivity {
         mJobState = mStateEditText.getText().toString();
         mJobArea = mAreaEditText.getText().toString();
 
-        if ( mJobTitle.equals("")|| mJobTitle == null) {
+        if (mJobTitle.equals("") || mJobTitle == null) {
             return false;
         } else if (mJobDescription.equals("") || mJobDescription == null) {
             return false;
@@ -205,7 +237,7 @@ public class NewPostActivity extends BaseActivity {
             return false;
         } else if (mJobAddress.equals("") || mJobAddress == null) {
             return false;
-        }else if (mJobArea.equals("") || mJobArea == null) {
+        } else if (mJobArea.equals("") || mJobArea == null) {
             return false;
         } else if (mJobCity.equals("") || mJobCity == null) {
             return false;
@@ -223,15 +255,17 @@ public class NewPostActivity extends BaseActivity {
         String monthString = DateFormat.format("MMM", date).toString();
         String currentUserID = Common.currentUser.getPhoneNumber();
 
-        Log.e("NewPostActivity","currentUserId: "+ currentUserID);
+        Log.e("NewPostActivity", "currentUserId: " + currentUserID);
 
-        Job job = new Job(mJobTitle, mJobDescription, imageUrl,"", mJobAmount, day, monthString, "1", currentUserID);
+        //Create a new location object using the values from the edit text
+        Location location = new Location(mJobAddress, mJobArea, mJobCity, mJobState);
+        Job job = new Job(mJobTitle, mJobDescription, imageUrl, location, mJobAmount, day, monthString, "1", currentUserID);
 
         //push job post details to the database
         jobDatabaseReference.orderByKey();
         jobDatabaseReference.child(String.valueOf(System.currentTimeMillis())).setValue(job);
 
-        Toast.makeText(NewPostActivity.this,"Job AD successfully created", Toast.LENGTH_SHORT).show();
+        Toast.makeText(NewPostActivity.this, "Job AD successfully created", Toast.LENGTH_SHORT).show();
         finish();
 
     }

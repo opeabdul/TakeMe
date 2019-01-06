@@ -50,7 +50,7 @@
             android:windowSoftInputMode="stateUnchanged"/>
 
         <activity
-            android:name=".JobViewActivity"
+            android:name=".JobDetailsActivity"
             android:label="@string/title_activity_job_view"
             android:theme="@style/AppTheme.NoActionBar"/>
     </application>

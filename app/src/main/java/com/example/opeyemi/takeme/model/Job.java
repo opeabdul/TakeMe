@@ -2,13 +2,13 @@ package com.example.opeyemi.takeme.model;
 
 public class Job {
 
-    private String title,description, image, location, price, day, month, categoryId, userID;
-
+    private String title,description, image, price, day, month, categoryId, userID;
+    private Location location;
     private Job(){
 
     }
 
-    public Job(String title, String description, String image, String location,
+    public Job(String title, String description, String image, Location location,
                 String price, String day, String month,
                 String categoryId, String userId){
 
@@ -48,11 +48,11 @@ public class Job {
         this.description = description;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 

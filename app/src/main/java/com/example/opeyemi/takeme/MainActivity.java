@@ -1,19 +1,24 @@
 package com.example.opeyemi.takeme;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.opeyemi.takeme.Interface.CallDialFragment;
+
+import com.example.opeyemi.takeme.Interface.ItemClickListener;
 import com.example.opeyemi.takeme.bottomNavigationViewHelper.BaseActivity;
 import com.example.opeyemi.takeme.common.Common;
 import com.example.opeyemi.takeme.model.User;
@@ -29,14 +34,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import static com.example.opeyemi.takeme.Interface.CallDialFragment.makePhoneCall;
 
-public class MainActivity extends BaseActivity{
+public class MainActivity extends BaseActivity {
 
     FirebaseRecyclerOptions<Job> options;
 
     private final String TAG = "MainActivity";
-
+    private String userPhoneNumber; //to hold phoneNumber of clicked jobItem
+    private String userName; //to hold userName of each clicked jobItem
 
     public RecyclerView menuRecyclerView;
     public RecyclerView.LayoutManager layoutManager;
@@ -49,7 +54,7 @@ public class MainActivity extends BaseActivity{
         super.onCreate(savedInstanceState);
 
         //init firebase
-        FirebaseDatabase  database = FirebaseDatabase.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference job = database.getReference("job");
         job.keepSynced(true);
 
@@ -57,7 +62,7 @@ public class MainActivity extends BaseActivity{
         DatabaseReference jobRef = FirebaseDatabase.getInstance().getReference("job");
         Query query = jobRef.orderByKey();
 
-         options = new FirebaseRecyclerOptions.Builder<Job>()
+        options = new FirebaseRecyclerOptions.Builder<Job>()
                 .setQuery(query, Job.class)
                 .build();
 
@@ -72,80 +77,123 @@ public class MainActivity extends BaseActivity{
 
     private void loadMenu() {
 
-         mCategoryAdapter = new FirebaseRecyclerAdapter<Job, MenuVeiwHolder>(options) {
+        mCategoryAdapter = new FirebaseRecyclerAdapter<Job, MenuVeiwHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull final MenuVeiwHolder holder, int position, @NonNull final Job model) {
+
+                //populate different part of the viewholder with the right data
+                holder.jobTitleTextView.setText(model.getTitle());
+                Picasso.with(getBaseContext()).load(model.getImage())
+                        .into(holder.jobImageView);
+                holder.menuJobLocationTextView.setText(getString(R.string.job_location_details,
+                        model.getLocation().getArea(), model.getLocation().getCity()));
+                holder.menuDateTextView.setText(getString(R.string.date_posted, model.getDay(), model.getMonth()));
+
+                //Get the user (owner of the job) details for the the the particular job
+                //being populated on the recycler view
+                userRef.addValueEventListener(new ValueEventListener() {
                     @Override
-                    protected void onBindViewHolder(@NonNull final MenuVeiwHolder holder, int position, @NonNull final Job model) {
-                        holder.jobTitleTextView.setText(model.getTitle());
-                        Picasso.with(getBaseContext()).load(model.getImage())
-                                .into(holder.jobImageView);
-
-                        String jobUserId = model.getUserID();
-                        userRef.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                User user = dataSnapshot.child(model.getUserID()).getValue(User.class);
-                                holder.jobOwnerNameTextView.setText(user.getName());
-                                /*TODO get user image*/
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        final User user = dataSnapshot.child(model.getUserID()).getValue(User.class);
+                        holder.jobOwnerNameTextView.setText(user.getName());
+                        /*TODO get user image*/
 
 
-                        /*
-                        final Job clickItem = model;
-
-                        holder.setItemClickListener(new ItemClickListener() {
-
-                            @Override
-                            public void onClick(View view, int position, boolean isLongClick) {
-                                Toast.makeText(MainActivity.this,""+clickItem.getTitle(),Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                         */
-
-                        holder.messageView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-
-                        holder.detailsView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        });
-
+                        //set onclick listener on the call view using the details of the
+                        //user returned
                         holder.callView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                requestCallPermission();
-                                new CallDialFragment().show(getFragmentManager(),TAG);
+                                Log.e(TAG, "requestCallPermission:" + requestCallPermission());
+                                if (requestCallPermission()) {
+                                    userPhoneNumber = user.getPhoneNumber();
+                                    userName = user.getName();
+                                    showCallAlertDialog(userName, userPhoneNumber);
+                                }
+
                             }
                         });
-
                     }
 
-                    @NonNull
                     @Override
-                    public MenuVeiwHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                        LayoutInflater inflater  = LayoutInflater.from(parent.getContext());
-                        View view = inflater.inflate(R.layout.menu_item,parent,false);
-                        return new MenuVeiwHolder(view);
-                    }
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-         };
+                    }
+                });
+
+
+                //set the onclick listener for the message view to switch to chat View
+                holder.messageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                        startActivity(intent);
+                    }
+                });
+
+                holder.detailsView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        holder.setItemClickListener(new ItemClickListener() {
+                            @Override
+                            public void onClick(View view, int position, boolean isLongClick) {
+                                Intent intent = new Intent(MainActivity.this, JobDetailsActivity.class);
+                                intent.putExtra("jobId", mCategoryAdapter.getRef(position).getKey());
+                                startActivity(intent);
+
+                            }
+                        });
+                    }
+                });
+
+
+            }
+
+            @NonNull
+            @Override
+            public MenuVeiwHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+                View view = inflater.inflate(R.layout.menu_item, parent, false);
+                return new MenuVeiwHolder(view);
+            }
+
+        };
 
         menuRecyclerView.setAdapter(mCategoryAdapter);
     }
 
-    public void requestCallPermission(){
+    public void showCallAlertDialog(String userName, final String userPhoneNumber) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder.setTitle(userName)
+                .setMessage(getString(R.string.dialog_make_a_phone_call,userPhoneNumber) )
+                .setPositiveButton(R.string.call, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        makePhoneCall(userPhoneNumber);
+                    }
+                })
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void makePhoneCall(String phoneNumber) {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        try {
+            startActivity(intent);
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public boolean requestCallPermission() {
         if (ContextCompat.checkSelfPermission(getBaseContext(),
                 Manifest.permission.CALL_PHONE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -159,21 +207,33 @@ public class MainActivity extends BaseActivity{
             // result of the request.
         } else {
             //You already have permission
-            try {
-                startActivity(makePhoneCall("07062709410"));
-            } catch(SecurityException e) {
-                e.printStackTrace();
-            }
+            return true;
         }
+        return false;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case Common.MY_PERMISSIONS_REQUEST_CALL_PHONE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    showCallAlertDialog(userPhoneNumber, userName);
+                }
+            }
+
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 
     //overriding BaseActivity method
-    public int getContentViewId(){
+    public int getContentViewId() {
         return R.layout.activity_main;
     }
 
-    public int getNavigationMenuItemId(){
+    public int getNavigationMenuItemId() {
         return R.id.navigation_home;
     }
 
@@ -182,7 +242,6 @@ public class MainActivity extends BaseActivity{
         super.onStart();
         mCategoryAdapter.startListening();
     }
-
 
 
     @Override
@@ -197,17 +256,5 @@ public class MainActivity extends BaseActivity{
         mCategoryAdapter.stopListening();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
-            case Common.MY_PERMISSIONS_REQUEST_CALL_PHONE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    makePhoneCall("07062709410");
-                }
-            }
 
-        }
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    }
 }

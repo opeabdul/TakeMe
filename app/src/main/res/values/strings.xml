@@ -8,6 +8,18 @@
     <string name="slogan">Be busy with your life, wether you are at home or in the office or on the beach, we will find you and we will feed you</string>
 
 
+    <!-- For Main menu -->
+    <string name="job_location_details">%1$s, %2$s.</string>
+    <string name="date_posted">%1$s %2$s</string>
+    <string name="need">needs</string>
+    <string name="at">at</string>
+    <!--Main menu ends here-->
+
+    <!--For Job details Activity-->
+    <string name="description">Description</string>
+    <string name="job_name">Job Name</string>
+    <!--Job details Activity Ends-->
+
     <!-- For Chat Section -->
     <string name="welcome_msg">Welcome!</string>
     <string name="sign_out">Sign Out</string>
@@ -47,7 +59,7 @@
     <!--Dialog strings end-->
 
 
-    <!--Job Post Strings-->
+    <!--New Post Strings-->
     <string name="click_image">Add Job Image</string>
     <string name="price">price</string>
     <string name="job_location">job location</string>
@@ -58,6 +70,10 @@
     <string name="create_job">create job</string>
     <string name="job_post">Job Post</string>
     <string name="allow_call">Job applicants can place a phone call.</string>
-    <!--Job Post Strings end here-->
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="make_post_without_image">Do you want to make a post without job image?</string>
+    <string name="upload_image">Upload Image</string>
+    <!--Job New Post Strings end here-->
 
 </resources>
