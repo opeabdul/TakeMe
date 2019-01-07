@@ -2,7 +2,7 @@ package com.example.opeyemi.takeme.model;
 
 public class Job {
 
-    private String title,description, image, price, day, month, categoryId, userID;
+    private String id, title,description, image, price, day, month, categoryId, userID;
     private Location location;
     private Job(){
 
@@ -22,6 +22,14 @@ public class Job {
         this.month = month;
         this.categoryId = categoryId;
         this.userID = userId;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle(){

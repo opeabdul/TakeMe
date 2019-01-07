@@ -1,9 +1,13 @@
 package com.example.opeyemi.takeme;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.opeyemi.takeme.ProfileFragments.JobPostFragment;
@@ -50,5 +54,24 @@ public class ProfileActivity extends BaseActivity implements JobPostFragment.OnL
     @Override
     public void onListFragmentInteraction(DummyContent.DummyItem item) {
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.profile_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+
+        switch (itemId){
+            case R.id.profile_logout_menu:
+                Common.logout(ProfileActivity.this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

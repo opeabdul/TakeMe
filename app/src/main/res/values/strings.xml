@@ -16,8 +16,10 @@
     <!--Main menu ends here-->
 
     <!--For Job details Activity-->
-    <string name="description">Description</string>
-    <string name="job_name">Job Name</string>
+    <string name="description">Job Description</string>
+    <string name="location">%1$s %2$s, \n %3$s, %4$s. </string>
+    <string name="job_name"> %1$s needed</string>
+    <string name="date">%1$s %2$s %3$s </string>
     <!--Job details Activity Ends-->
 
     <!-- For Chat Section -->
@@ -43,6 +45,12 @@
     <!--Profile section -->
     <string name="job_post_tab_title">Job Posts</string>
     <string name="details_tab_title">Details</string>
+    <string name="profile_update_info">
+        Setting your profile correctly improves your chance of being trusted by other users and
+        encourage others in taking up yours job and also giving you picking you for their jobs.
+    </string>
+    <string name="logout">Logout</string>
+
     <!--Profile section  ends-->
 
     <!--Menu List section -->

@@ -44,6 +44,18 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/user_image_view"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:layout_anchor="@id/job_details_app_bar_layout"
+        app:layout_anchorGravity="center"
+        app:pressedTranslationZ="12dp"
+        app:elevation="6dp"
+        app:useCompatPadding="true"
+
+        android:src="@drawable/ic_account_circle_black_36dp" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
@@ -55,6 +67,8 @@
         app:pressedTranslationZ="12dp"
         app:srcCompat="@drawable/ic_chat_bubble_white_24dp"
         app:useCompatPadding="true" />
+
+
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/nested_scroll_view"
@@ -86,6 +100,7 @@
                         android:layout_marginTop="8dp"
                         android:padding="12dp"
                         android:text="@string/job_name"
+                        android:textAllCaps="true"
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold" />
 
@@ -98,7 +113,8 @@
                         <ImageView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
+                            android:layout_gravity="right|center_vertical"
+                            android:gravity="right|center_vertical"
                             android:layout_weight="1"
                             android:src="@drawable/ic_attach_money_black_24dp" />
 
@@ -107,8 +123,11 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="9"
-                            android:padding="12dp"
+                            android:paddingTop="12dp"
+                            android:paddingBottom="12dp"
+                            android:paddingLeft="0dp"
                             android:text="1000"
+                            android:layout_gravity="left|center_vertical"
                             android:textColor="@color/colorPrimary"
                             android:textSize="20sp"
                             android:textStyle="bold" />
@@ -125,7 +144,8 @@
                         app:backGroundColor="@color/colorAccent"
                         app:finalNumber="20"
                         app:initialNumber="1"
-                        app:textSize="8sp" />
+                        app:textSize="8sp"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -135,19 +155,93 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/description"
+                        android:textColor="@android:color/black"
+                        android:src="@drawable/ic_my_location_black_24dp"
+                        android:layout_gravity="center"
+                        android:padding="8dp"/>
+
+                    <TextView
+                        android:id="@+id/job_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingMultiplier="1.5"
+                        android:padding="8dp"
+                        android:layout_gravity="center"
+                        android:text="@string/location"
+                        android:textColor="@android:color/primary_text_light"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/description"
+                        android:textColor="@android:color/black"
+                        android:src="@drawable/ic_date_range_black_24dp"
+                        android:padding="8dp"/>
+
+
+                    <TextView
+                        android:id="@+id/job_date_posted"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingMultiplier="1.5"
+                        android:padding="8dp"
+                        android:layout_gravity="center"
+                        android:text="@string/date"
+                        android:textColor="@android:color/primary_text_light"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/description"
+                    android:textColor="@android:color/black"
+                    android:layout_above="@+id/job_description_text_view"
+                    android:textStyle="bold"
+                    android:padding="8dp"/>
 
                 <TextView
                     android:id="@+id/job_description_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
                     android:lineSpacingMultiplier="1.5"
-                    android:padding="12dp"
+                    android:padding="8dp"
                     android:text="@string/description"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/primary_text_light"
                     android:textSize="14sp" />
 
-
+               </LinearLayout>
             </android.support.v7.widget.CardView>
 
         </LinearLayout>

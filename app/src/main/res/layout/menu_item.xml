@@ -142,9 +142,9 @@
                         android:layout_height="wrap_content"
                         android:gravity="left"
                         android:layout_weight="3"
-                        android:layout_gravity="left"
+                        android:layout_gravity="left|center_vertical"
                         android:text="Osogbo"
-                        android:textSize="15sp" />
+                        android:textSize="20sp" />
 
                     <ImageView
                         android:id="@+id/menu_money_image"

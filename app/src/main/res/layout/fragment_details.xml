@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ProfileFragments.ProfileDetailsFragment">
+
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="1dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                style="@style/profile_details_icons"
+                android:src="@drawable/ic_account_box_black_50dp" />
+
+            <TextView
+                android:id="@+id/profile_name_TextView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:paddingRight="5dp"
+                android:background="#cccccc"
+                android:gravity="center_vertical"
+                android:text="Name" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="1dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                style="@style/profile_details_icons"
+                android:src="@drawable/ic_location_on_black_50dp" />
+
+            <TextView
+                android:id="@+id/profile_address_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:paddingRight="5dp"
+                android:background="#cccccc"
+                android:gravity="center_vertical"
+                android:text="Address" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="1dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                style="@style/profile_details_icons"
+                android:src="@drawable/ic_smartphone_black_50dp" />
+
+            <TextView
+                android:id="@+id/profile_phone_number_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:paddingRight="5dp"
+                android:background="#cccccc"
+                android:gravity="center_vertical"
+                android:text="Phone Number" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="1dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                style="@style/profile_details_icons"
+                android:src="@drawable/ic_email_black_50dp" />
+
+            <TextView
+                android:id="@+id/profile_email_TextView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:paddingRight="5dp"
+                android:background="#cccccc"
+                android:gravity="center_vertical"
+                android:text="Email" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="1dp"
+            android:gravity="center_vertical">
+
+            <ImageView
+                style="@style/profile_details_icons"
+                android:src="@drawable/ic_email_black_50dp" />
+
+            <TextView
+                android:id="@+id/profile_skills_TextView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:paddingRight="5dp"
+                android:background="#cccccc"
+                android:gravity="center_vertical"
+                android:text="Skills" />
+
+
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            app:cardCornerRadius="5dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left"
+                android:padding="10dp"
+                android:textSize="12dp"
+                android:textColor="@android:color/white"
+                android:text="@string/profile_update_info"
+                android:background="@color/colorAccent"/>
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+
+</FrameLayout>
+</android.support.v4.widget.NestedScrollView>

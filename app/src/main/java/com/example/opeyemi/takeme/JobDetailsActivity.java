@@ -29,7 +29,12 @@ public class JobDetailsActivity extends AppCompatActivity {
     private TextView jobDescription;
     private TextView jobName;
     private ImageView jobImage;
+    private ImageView userImageView;
+    private TextView dateTextView;
+    private TextView locationTextView;
+    private TextView userPhoneTextView;
 
+    private final String  TAG = "JOBDETAILSACTIVITY";
 
     FirebaseDatabase database;
     DatabaseReference jobDbRef;
@@ -56,42 +61,36 @@ public class JobDetailsActivity extends AppCompatActivity {
         jobImage = findViewById(R.id.job_image);
         jobPrice = findViewById(R.id.job_price);
         jobName = findViewById(R.id.job_name);
+        userImageView = findViewById(R.id.user_image_view);
+        dateTextView = findViewById(R.id.job_date_posted);
+        locationTextView = findViewById(R.id.job_location);
+        //userPhoneTextView = findViewById();
+
 
         collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.CollapseAppbar);
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppbar);
         setTextAppearanceCollapseAppbar();
 
         Intent intent = getIntent();
         if (intent != null){
 
-            String foodId = intent.getStringExtra("foodId");
+            jobDescription.setText(intent.getStringExtra("jobDescription"));
+            Picasso.with(JobDetailsActivity.this).load(intent.getStringExtra("jobImage")).into(jobImage);
+            jobPrice.setText(intent.getStringExtra("jobPrice"));
+            jobName.setText(getString(R.string.job_name,intent.getStringExtra("jobName")));
+            collapsingToolbarLayout.setTitle(intent.getStringExtra("jobOwnerName"));
+            Picasso.with(JobDetailsActivity.this).load(intent.getStringExtra("jobImage")).into(userImageView);
 
-            if(foodId != null){
-
-                jobDbRef.child(foodId).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Job job = dataSnapshot.getValue(Job.class);
-
-                        jobDescription.setText(job.getDescription());
-                        jobName.setText(job.getTitle());
-                        Picasso.with(getBaseContext()).load(job.getImage()).into(jobImage);
-                        collapsingToolbarLayout.setTitle(job.getTitle());
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Log.e("JOBDETAILSACTIVITY",
-                                "Error while loading from database", databaseError.toException());
-
-                    }
-                });
-            }
+            dateTextView.setText(getString(R.string.date, intent.getStringExtra("jobPostedDay"),
+                    intent.getStringExtra("jobPostedMonth"), intent.getStringExtra("jobPostedMonth")));
+            locationTextView.setText(getString(R.string.location,
+                    intent.getStringExtra("jobLocationAddress"),
+                    intent.getStringExtra("jobLocationArea"),
+                    intent.getStringExtra("jobLocationCity"),
+                    intent.getStringExtra("jobLocationState")));
         }
 
-
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab =  findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,7 +102,7 @@ public class JobDetailsActivity extends AppCompatActivity {
 
     @TargetApi(21)
     public void setTextAppearanceCollapseAppbar(){
-        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.ExpandedAppbar);
+        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapseAppbar);
     }
 
 }

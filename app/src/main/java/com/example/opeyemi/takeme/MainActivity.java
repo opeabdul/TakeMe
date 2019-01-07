@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -42,6 +44,8 @@ public class MainActivity extends BaseActivity {
     private final String TAG = "MainActivity";
     private String userPhoneNumber; //to hold phoneNumber of clicked jobItem
     private String userName; //to hold userName of each clicked jobItem
+    private String jobId; //to hold the jobId of the partcular job menu clicked;
+
 
     public RecyclerView menuRecyclerView;
     public RecyclerView.LayoutManager layoutManager;
@@ -73,13 +77,14 @@ public class MainActivity extends BaseActivity {
         menuRecyclerView.setLayoutManager(layoutManager);
 
         loadMenu();
+
     }
 
     private void loadMenu() {
 
         mCategoryAdapter = new FirebaseRecyclerAdapter<Job, MenuVeiwHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull final MenuVeiwHolder holder, int position, @NonNull final Job model) {
+            protected void onBindViewHolder(@NonNull final MenuVeiwHolder holder, final int position, @NonNull final Job model) {
 
                 //populate different part of the viewholder with the right data
                 holder.jobTitleTextView.setText(model.getTitle());
@@ -88,6 +93,7 @@ public class MainActivity extends BaseActivity {
                 holder.menuJobLocationTextView.setText(getString(R.string.job_location_details,
                         model.getLocation().getArea(), model.getLocation().getCity()));
                 holder.menuDateTextView.setText(getString(R.string.date_posted, model.getDay(), model.getMonth()));
+                holder.moneyTextView.setText(model.getPrice());
 
                 //Get the user (owner of the job) details for the the the particular job
                 //being populated on the recycler view
@@ -98,21 +104,34 @@ public class MainActivity extends BaseActivity {
                         holder.jobOwnerNameTextView.setText(user.getName());
                         /*TODO get user image*/
 
-
                         //set onclick listener on the call view using the details of the
                         //user returned
                         holder.callView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                Log.e(TAG, "requestCallPermission:" + requestCallPermission());
+                                userPhoneNumber = user.getPhoneNumber();
+                                userName = user.getName();
                                 if (requestCallPermission()) {
-                                    userPhoneNumber = user.getPhoneNumber();
-                                    userName = user.getName();
                                     showCallAlertDialog(userName, userPhoneNumber);
                                 }
-
                             }
                         });
+
+                        //set the onclick Listener for the details to switch to job details view
+                        //with the information of the item clicked
+                        holder.detailsView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(MainActivity.this, JobDetailsActivity.class);
+                                Log.e(TAG, "holder adapter position: "+ holder.getAdapterPosition());
+
+                                intent = putExtrasIntoIntent(intent, user, model);
+                                startActivity(intent);
+                            }
+                        });
+
+
+
                     }
 
                     @Override
@@ -130,23 +149,6 @@ public class MainActivity extends BaseActivity {
                         startActivity(intent);
                     }
                 });
-
-                holder.detailsView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        holder.setItemClickListener(new ItemClickListener() {
-                            @Override
-                            public void onClick(View view, int position, boolean isLongClick) {
-                                Intent intent = new Intent(MainActivity.this, JobDetailsActivity.class);
-                                intent.putExtra("jobId", mCategoryAdapter.getRef(position).getKey());
-                                startActivity(intent);
-
-                            }
-                        });
-                    }
-                });
-
-
             }
 
             @NonNull
@@ -160,6 +162,24 @@ public class MainActivity extends BaseActivity {
         };
 
         menuRecyclerView.setAdapter(mCategoryAdapter);
+    }
+
+    private Intent putExtrasIntoIntent(Intent intent, User user, Job model) {
+        intent.putExtra("jobOwnerName", user.getName())
+                .putExtra("jobOwnerPhone", user.getPhoneNumber())
+                .putExtra("jobPostedDay",model.getDay())
+                .putExtra("jobPostedMonth", model.getMonth())
+                .putExtra("jobImage",model.getImage())
+                .putExtra("jobDescription", model.getDescription())
+                .putExtra("jobLocationAddress", model.getLocation().getAddress())
+                .putExtra("jobLocationCity", model.getLocation().getCity())
+                .putExtra("jobLocationState", model.getLocation().getState())
+                .putExtra("jobLocationArea", model.getLocation().getArea())
+                .putExtra("jobPrice", model.getPrice())
+                .putExtra("jobName", model.getTitle());
+
+
+        return intent;
     }
 
     public void showCallAlertDialog(String userName, final String userPhoneNumber) {

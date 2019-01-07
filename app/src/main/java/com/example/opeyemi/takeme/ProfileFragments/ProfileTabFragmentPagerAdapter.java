@@ -5,12 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 
-import com.example.opeyemi.takeme.ProfileFragments.BlankFragment;
-import com.example.opeyemi.takeme.ProfileFragments.JobPostFragment;
 import com.example.opeyemi.takeme.R;
-import com.google.android.gms.common.util.Strings;
 
 public class ProfileTabFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -26,7 +22,7 @@ public class ProfileTabFragmentPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new JobPostFragment();
             case 1:
-                return new BlankFragment();
+                return new ProfileDetailsFragment();
             default:
                 return null;
         }
