@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
     <application
         android:allowBackup="true"
@@ -12,14 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" />
-
-        <activity android:name=".SignInActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+        <activity
+            android:name=".SignInActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,32 +27,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".SignUpActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+        <activity
+            android:name=".SignUpActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ProfileActivity" />
-
         <activity android:name=".ChatActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="friendlychat.firebase.google.com"
                     android:pathPrefix="/message"
                     android:scheme="http" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".NewPostActivity"
+        <activity
+            android:name=".NewPostActivity"
             android:label="@string/job_post"
-            android:windowSoftInputMode="stateUnchanged"/>
-
+            android:windowSoftInputMode="stateUnchanged" />
         <activity
             android:name=".JobDetailsActivity"
             android:label="@string/title_activity_job_view"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".FindUserActivity" />
+        <activity android:name=".NewChatActivity"></activity>
     </application>
 
 </manifest>

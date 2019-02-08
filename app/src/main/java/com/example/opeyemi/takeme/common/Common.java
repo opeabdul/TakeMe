@@ -18,4 +18,17 @@ public class Common {
         currentUser = null;
         context.startActivity(new Intent(context, SplashScreen.class));
     }
+
+    public static String handlePhoneNumber(String phoneNumber){
+
+        phoneNumber = phoneNumber.replaceAll(" ","");
+        phoneNumber = phoneNumber.replaceAll("-","");
+        phoneNumber = phoneNumber.replaceAll("\\(","").replaceAll("\\)", "");
+
+
+        if(String.valueOf(phoneNumber.charAt(0)).equals("+")){
+            phoneNumber = phoneNumber.replace("+234", "0");
+        }
+        return phoneNumber;
+    }
 }

@@ -1,6 +1,9 @@
 package com.example.opeyemi.takeme.model;
 
-public class User {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class User  implements Parcelable{
 
     private String name;
     private String password;
@@ -48,4 +51,16 @@ public class User {
     public void setImage(String image) {
         this.image = image;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
+    }
+
+
 }

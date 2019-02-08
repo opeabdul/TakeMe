@@ -9,6 +9,7 @@ public class FriendlyMessage {
     private String imageUrl;
 
     public FriendlyMessage() {
+
     }
 
     public FriendlyMessage(String text, String name, String photoUrl, String imageUrl) {

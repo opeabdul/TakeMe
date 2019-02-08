@@ -58,7 +58,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
                         break;
 
                     case R.id.navigation_chat:
-                        startActivity(new Intent (getApplicationContext(), com.example.opeyemi.takeme.ChatActivity.class));
+                        startActivity(new Intent (getApplicationContext(), com.example.opeyemi.takeme.FindUserActivity.class));
                         break;
 
                     case R.id.navigation_profile:

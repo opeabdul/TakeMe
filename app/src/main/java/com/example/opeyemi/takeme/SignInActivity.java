@@ -48,10 +48,8 @@ public class SignInActivity extends AppCompatActivity {
                 mProgressDialog.setMessage("please wait...");
                 mProgressDialog.show();
 
-                final ProgressBar mProgressBar = new ProgressBar(SignInActivity.this);
-                mProgressBar.setVisibility(View.VISIBLE);
 
-                table_user.addValueEventListener(new ValueEventListener() {
+                table_user.addListenerForSingleValueEvent(new ValueEventListener() {
 
 
                     @Override
@@ -60,7 +58,7 @@ public class SignInActivity extends AppCompatActivity {
                         if (dataSnapshot.child(editPhone.getText().toString()).exists()) {
 
                             mProgressDialog.dismiss();
-                            mProgressBar.setVisibility(View.INVISIBLE);
+
                             //Get User Information
                             User user = dataSnapshot.child(editPhone.getText().toString()).getValue(User.class);
                             if (user.getPassword().equals(editPassword.getText().toString())) {
