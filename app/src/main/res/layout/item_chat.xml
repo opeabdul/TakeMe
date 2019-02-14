@@ -4,17 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/layout"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:layout_margin="3dp">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxHeight="150dp"
+        android:maxWidth="150dp"
+        android:id="@+id/image_message"
+        android:visibility="invisible"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/title" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/chat" />
+        android:id="@+id/chat"
+        android:visibility="invisible"/>
 
     <TextView
         android:layout_width="wrap_content"

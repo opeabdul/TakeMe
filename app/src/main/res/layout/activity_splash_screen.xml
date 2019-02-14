@@ -16,8 +16,9 @@
 
         <ImageView
             android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:src="@drawable/ic_take_me" />
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:src="@drawable/takeme_logo" />
 
         <TextView
             android:id="@+id/textSlogan"

@@ -3,21 +3,36 @@ package com.example.opeyemi.takeme.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class User  implements Parcelable{
+import java.io.Serializable;
+
+public class User  implements Serializable {
 
     private String name;
     private String password;
     private String phoneNumber;
     private String image;
+    private String notificationKey;
 
     public User(){
 
+    }
+
+    public User(String phoneNumber){
+        this.phoneNumber = phoneNumber;
     }
 
     public User(String name, String password, String phoneNumber){
         this.name = name;
         this.password = password;
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getNotificationKey() {
+        return notificationKey;
+    }
+
+    public void setNotificationKey(String notificationKey) {
+        this.notificationKey = notificationKey;
     }
 
     public String getName(){
@@ -52,15 +67,7 @@ public class User  implements Parcelable{
         this.image = image;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-
-    }
 
 
 }

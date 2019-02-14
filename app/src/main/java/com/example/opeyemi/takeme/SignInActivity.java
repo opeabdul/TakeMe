@@ -63,8 +63,9 @@ public class SignInActivity extends AppCompatActivity {
                             User user = dataSnapshot.child(editPhone.getText().toString()).getValue(User.class);
                             if (user.getPassword().equals(editPassword.getText().toString())) {
                                 Toast.makeText(SignInActivity.this, "Signed in successfully !", Toast.LENGTH_SHORT).show();
-                                Intent homeIntent = new Intent(SignInActivity.this, MainActivity.class);
                                 Common.currentUser = user;
+                                Intent homeIntent = new Intent(getApplicationContext(), MainActivity.class);
+                                homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(homeIntent);
                                 finish();
                             } else {

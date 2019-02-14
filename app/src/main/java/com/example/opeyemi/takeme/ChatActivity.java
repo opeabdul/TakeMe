@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -57,10 +58,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
 
 
-public class ChatActivity extends BaseActivity {
+
+public class ChatActivity extends AppCompatActivity {
 
     private static final String TAG = "ChatActivity";
     public static final String MESSAGES_CHILD = "messages";
@@ -354,11 +355,15 @@ public class ChatActivity extends BaseActivity {
                     FriendlyMessage friendlyMessage =
                             new FriendlyMessage(null, mUsername, mPhotoUrl,
                                     task.getResult().toString());
+
                     mFirebaseDatabaseReference.child(MESSAGES_CHILD).child(key)
                             .setValue(friendlyMessage);
+
                 } else {
+
                     Log.w(TAG, "Image upload task was not successful.",
                             task.getException());
+
                 }
             }
         });

@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.opeyemi.takeme.ChatActivity;
 import com.example.opeyemi.takeme.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -34,7 +36,22 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
     @Override
     public void onBindViewHolder(@NonNull ChatListAdapterViewHolder holder, int position) {
-        holder.message.setText(mChatList.get(position).getMessage());
+
+        if (mChatList.get(position).getMessage() != "") {
+            holder.message.setText(mChatList.get(position).getMessage());
+            holder.message.setVisibility(View.VISIBLE);
+            holder.imageView.setVisibility(View.GONE);
+        }
+
+        if (mChatList.get(position).getImage() != ""){
+
+            Picasso.with(holder.imageView.getContext()).load(mChatList.get(position)
+                    .getImage()).into(holder.imageView);
+
+            holder.imageView.setVisibility(View.VISIBLE);
+            holder.message.setVisibility(View.GONE);
+        }
+
         holder.sender.setText(mChatList.get(position).getSenderId());
     }
 
@@ -47,6 +64,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         private LinearLayout mLayout;
         private TextView sender;
         private TextView message;
+        private ImageView imageView;
 
         public ChatListAdapterViewHolder(View itemView) {
             super(itemView);
@@ -54,6 +72,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
             mLayout = itemView.findViewById(R.id.layout);
             sender = itemView.findViewById(R.id.sender);
             message = itemView.findViewById(R.id.chat);
+            imageView = itemView.findViewById(R.id.image_message);
         }
     }
+
 }

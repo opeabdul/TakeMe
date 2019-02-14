@@ -15,6 +15,7 @@ import com.example.opeyemi.takeme.ProfileFragments.dummy.DummyContent;
 import com.example.opeyemi.takeme.bottomNavigationViewHelper.BaseActivity;
 import com.example.opeyemi.takeme.ProfileFragments.ProfileTabFragmentPagerAdapter;
 import com.example.opeyemi.takeme.common.Common;
+import com.onesignal.OneSignal;
 
 public class ProfileActivity extends BaseActivity implements JobPostFragment.OnListFragmentInteractionListener {
 
@@ -69,6 +70,7 @@ public class ProfileActivity extends BaseActivity implements JobPostFragment.OnL
 
         switch (itemId){
             case R.id.profile_logout_menu:
+                OneSignal.setSubscription(false);
                 Common.logout(ProfileActivity.this);
                 return true;
         }
