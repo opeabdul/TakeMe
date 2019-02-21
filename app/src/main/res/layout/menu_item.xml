@@ -7,11 +7,100 @@
     android:layout_gravity="center_horizontal"
     android:layout_marginBottom="8dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:padding="8dp">
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="1dp">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/menu_account_image"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_account_circle_black_36dp" />
+
+            <TextView
+                android:id="@+id/job_owner_name_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/menu_account_image"
+                android:layout_toEndOf="@+id/menu_account_image"
+                android:gravity="center"
+                android:text="@string/developer_name"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/post_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:text="Nov 15"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/menu_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/job_raters"
+                android:layout_alignBottom="@+id/menu_account_image"
+                android:layout_toEndOf="@+id/menu_account_image"
+                android:src="@drawable/ic_star_border_black_24dp" />
+
+            <TextView
+                android:id="@+id/job_raters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/menu_account_image"
+                android:layout_marginHorizontal="2dp"
+                android:layout_toEndOf="@+id/menu_star"
+                android:text="5.0" />
+
+            <TextView
+                android:id="@+id/job_rating_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/menu_star"
+                android:layout_alignBottom="@+id/menu_account_image"
+                android:layout_toEndOf="@+id/job_raters"
+                android:text="(65)" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/job_title_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:padding="5dp"
+            android:text="A Labourer"
+            android:textSize="15sp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:layout_marginBottom="10dp"
+            android:background="@android:color/darker_gray">
+
+            <ImageView
+                android:id="@+id/menu_image"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_gravity="center"
+                android:scaleType="centerCrop"
+                android:background="@drawable/grey_outline"
+                tools:src="@drawable/ic_language_black_24dp" />
+        </FrameLayout>
+
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -19,158 +108,106 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:background="@color/colorPrimary"
-                android:padding="1dp">
 
-                <ImageView
-
-                    android:id="@+id/menu_image"
-                    android:layout_width="105dp"
-                    android:layout_height="115dp"
-                    android:scaleType="centerCrop"
-                    tools:src="@drawable/ic_language_black_24dp" />
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:weightSum="3">
 
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1">
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/menu_account_image"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentTop="true"
+                    <LinearLayout
+                        android:id="@+id/location_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:gravity="center_vertical"
+                        android:layout_centerVertical="true"
                         android:layout_marginRight="5dp"
-                        android:src="@drawable/ic_account_circle_black_36dp" />
+                        android:orientation="horizontal"
+                        android:background="@drawable/grey_outline"
+                        android:padding="5dp">
 
-                    <TextView
-                        android:id="@+id/job_owner_name_textView"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/menu_account_image"
-                        android:layout_marginLeft="-5dp"
-                        android:layout_marginStart="-5dp"
-                        android:layout_toEndOf="@+id/menu_account_image"
-                        android:layout_toRightOf="@id/menu_account_image"
-                        android:text="@string/developer_name" />
+                        <ImageView
+                            android:id="@+id/menu_job_location_image"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_location_on_black_50dp" />
 
-                    <TextView
-                        android:id="@+id/post_date"
+                        <TextView
+                            android:id="@+id/menu_job_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center_vertical"
+                            android:gravity="start"
+                            android:text="Osogbo"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nov 15"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:textSize="8sp"/>
+                        android:layout_toEndOf="@+id/location_layout"
+                        android:background="@drawable/grey_outline"
+                        android:gravity="center_vertical"
+                        android:layout_centerVertical="true"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
 
-                    <ImageView
-                        android:id="@+id/menu_star"
+                        <ImageView
+                            android:id="@+id/menu_views_image"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_remove_red_eye_grey_32dp" />
+
+                        <TextView
+                            android:id="@+id/menu_views_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center_vertical"
+                            android:gravity="start"
+                            android:text="46"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/menu_account_image"
-                        android:layout_alignTop="@+id/job_raters"
-                        android:layout_toLeftOf="@id/job_raters"
-                        android:layout_toStartOf="@+id/job_raters"
-                        android:src="@drawable/ic_star_border_black_24dp" />
-
-                    <TextView
-                        android:id="@+id/job_raters"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@+id/menu_account_image"
-                        android:layout_marginHorizontal="1dp"
-                        android:layout_toLeftOf="@id/job_rating_textView"
-                        android:layout_toStartOf="@+id/job_rating_textView"
-                        android:text="5.0" />
-
-                    <TextView
-                        android:id="@+id/job_rating_textView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_above="@+id/menu_star"
-                        android:layout_alignBottom="@+id/menu_account_image"
                         android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:text="(65)" />
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/rectangle_color_primary"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/menu_money_image"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="right|center_vertical"
+                            android:layout_toStartOf="@id/menu_money_value"
+                            android:gravity="right|center_vertical"
+                            android:src="@drawable/naira_logo_black"
+                            android:text="Osogbo"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/menu_money_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignBaseline="@id/menu_money_image"
+                            android:layout_alignParentEnd="true"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="1000"
+                            android:textColor="@android:color/black"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
                 </RelativeLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/need"
-                    android:textColor="@android:color/black"
-                    android:textSize="10sp"
-                    android:textStyle="italic" />
-
-                <TextView
-                    android:id="@+id/job_title_textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="left"
-                    android:text="A Labourer"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/at"
-                    android:textColor="@android:color/black"
-                    android:textSize="10sp"
-                    android:textStyle="italic" />
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="1">
-                    <TextView
-                        android:id="@+id/menu_job_location"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:layout_weight="3"
-                        android:layout_gravity="left|center_vertical"
-                        android:text="Osogbo"
-                        android:textSize="20sp" />
-
-                    <ImageView
-                        android:id="@+id/menu_money_image"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right|center_vertical"
-                        android:gravity="right|center_vertical"
-                        android:src="@drawable/ic_attach_money_black_24dp"
-                        android:text="Osogbo"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/menu_money_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left|center_vertical"
-                        android:layout_gravity="left|center_vertical"
-                        android:textColor="@android:color/black"
-                        android:text="1000"
-                        android:textSize="23sp" />
-                </LinearLayout>
-
-
-            </LinearLayout>
-
 
         </LinearLayout>
 
@@ -181,7 +218,7 @@
             android:layout_height="1dp"
             android:layout_below="@+id/linearLayout"
             android:layout_marginVertical="8dp"
-            android:background="@color/colorPrimary" />
+            android:background="@android:color/darker_gray" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -194,8 +231,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:gravity="center"
                 android:background="@drawable/rectangle_color_primary"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="5dp">
 
@@ -216,10 +253,10 @@
                 android:id="@+id/job_details_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/rectangle_color_primary"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="5dp">
 
@@ -240,9 +277,9 @@
                 android:id="@+id/call_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_weight="1"
                 android:background="@drawable/rectangle_color_primary"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="5dp">
 
@@ -260,5 +297,5 @@
 
 
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </android.support.v7.widget.CardView>
