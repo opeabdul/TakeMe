@@ -7,15 +7,38 @@
     <string name="developer_phone">07062709410</string>
     <string name="developer_phone_international">+2347062709410</string>
     <string name="title_profile">Profile</string>
-    <string name="slogan">Be busy with your life, wether you are at home or in the office or on the beach, we will find you and we will feed you</string>
+    <string name="slogan">Connect for quality transactional services.</string>
 
 
     <!-- For Main menu -->
     <string name="job_location_details">%1$s, %2$s.</string>
     <string name="date_posted">%1$s %2$s</string>
     <string name="need">needs</string>
+    <string name="search">search</string>
     <string name="at">at</string>
     <!--Main menu ends here-->
+
+
+    <!-- For sign-in and sign-up activity-->
+    <string name="password">Password</string>
+    <string name="phoneNumber">Phone Number</string>
+    <string name="continue_sign_in">Sign in to continue</string>
+    <string name="welcome">Welcome,</string>
+    <string name="agree">I agree to Takeme\'s</string>
+    <string name="terms_of_use_string">Terms of Use</string>
+    <string name="have_account">Already have an account?</string>
+    <string name="login_here">Login here</string>
+    <string name="login">Login</string>
+    <string name="dont_have_account">Don\'t have an account yet?</string>
+    <string name="register">Register</string>
+    <string name="name_string">Name</string>
+    <string name="forgot_password">Forgot your password?</string>
+
+    <!-- sign-in and Sign-up activity ends here-->
+
+
+
+
 
     <!--For Job details Activity-->
     <string name="description">Job Description</string>

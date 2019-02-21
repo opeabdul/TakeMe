@@ -65,6 +65,7 @@
                         android:layout_toEndOf="@+id/menu_account_image"
                         android:layout_toRightOf="@id/menu_account_image"
                         android:text="@string/developer_name" />
+
                     <TextView
                         android:id="@+id/post_date"
                         android:layout_width="wrap_content"

@@ -7,8 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.opeyemi.takeme.common.Common;
 import com.example.opeyemi.takeme.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +27,7 @@ public class SignUpActivity extends AppCompatActivity {
     private Button btnSignUp;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +36,29 @@ public class SignUpActivity extends AppCompatActivity {
         mEditPhone = findViewById(R.id.edit_phone_signup);
         mEditPassword = findViewById(R.id.edit_password_signup);
         mEditName = findViewById(R.id.edit_name_signup);
-
         btnSignUp = findViewById((R.id.btn_sign_up));
+        TextView loginTextView = findViewById(R.id.login_textView);
+        CheckBox termOfServiceCheckBox = findViewById(R.id.terms_of_service_checkBox);
+
+
+        loginTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SignUpActivity.this, SignInActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+            }
+        });
+
+
+
+        termOfServiceCheckBox.setChecked(false);
+        termOfServiceCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                btnSignUp.setClickable(b);
+            }
+        });
+
 
         //intialize Firebase
         final FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
@@ -67,7 +93,7 @@ public class SignUpActivity extends AppCompatActivity {
                             Toast.makeText(SignUpActivity.this,
                                     "Sign up successful",Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-                            finish();
+                            SignUpActivity.this.finish();
                         }
                     }
 
@@ -79,5 +105,14 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        super.onStart();
+        if(Common.currentUser != null){
+            startActivity(new Intent (SignUpActivity.this, MainActivity.class));
+        }
     }
 }

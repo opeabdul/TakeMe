@@ -46,7 +46,7 @@ public class Common {
     }
 
 
-    public static void  createNewChat(final String phonenumber) {
+    public static void  createNewChat(final String phoneNumber) {
         final DatabaseReference userChatDb = FirebaseDatabase.getInstance().getReference().child("user").child(Common.currentUser.getPhoneNumber()).child("chat");
         userChatDb.addValueEventListener(new ValueEventListener() {
             @Override
@@ -54,8 +54,9 @@ public class Common {
                 boolean chatExists = false;
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot userChats : dataSnapshot.getChildren()) {
-                        if (userChats.getValue().equals(phonenumber)) {
+                        if (userChats.getValue().equals(phoneNumber)) {
                             chatExists = true;
+
                         }
                     }
                     if (!chatExists) {
@@ -63,14 +64,14 @@ public class Common {
 
 
                         //initialize Current user and chatting partner database chat database with the new phone numbers
-                        userChatDb.child(newChatKey).setValue(phonenumber);
-                        DatabaseReference secondUserDb = FirebaseDatabase.getInstance().getReference().child("user").child(phonenumber).child("chat").child(newChatKey);
+                        userChatDb.child(newChatKey).setValue(phoneNumber);
+                        DatabaseReference secondUserDb = FirebaseDatabase.getInstance().getReference().child("user").child(phoneNumber).child("chat").child(newChatKey);
                         secondUserDb.setValue(Common.currentUser.getPhoneNumber());
 
 
                         Map<String, Object> newChatMap = new HashMap<>();
                         newChatMap.put(Common.currentUser.getPhoneNumber(), true);
-                        newChatMap.put(phonenumber, true);
+                        newChatMap.put(phoneNumber, true);
 
                         DatabaseReference chatInfoDb = FirebaseDatabase.getInstance().getReference().child("chat")
                                 .child(newChatKey).child("info");

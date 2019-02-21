@@ -69,7 +69,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BottomNa
                 finish();
 
             }
-        },300);
+        },200);
         return true;
     }
 

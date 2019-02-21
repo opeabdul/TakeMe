@@ -1,26 +1,30 @@
 package com.example.opeyemi.takeme;
 
 import android.Manifest;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.example.opeyemi.takeme.Interface.ItemClickListener;
 import com.example.opeyemi.takeme.bottomNavigationViewHelper.BaseActivity;
 import com.example.opeyemi.takeme.common.Common;
 import com.example.opeyemi.takeme.model.User;
@@ -52,6 +56,8 @@ public class MainActivity extends BaseActivity {
 
     private FirebaseRecyclerAdapter<Job, MenuVeiwHolder> mCategoryAdapter;
     DatabaseReference userRef;
+    DatabaseReference jobRef;
+    Query query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +69,8 @@ public class MainActivity extends BaseActivity {
         job.keepSynced(true);
 
         userRef = FirebaseDatabase.getInstance().getReference("user");
-        DatabaseReference jobRef = FirebaseDatabase.getInstance().getReference("job");
-        Query query = jobRef.orderByKey();
+        jobRef = FirebaseDatabase.getInstance().getReference("job");
+        query = jobRef.orderByKey();
 
         options = new FirebaseRecyclerOptions.Builder<Job>()
                 .setQuery(query, Job.class)
@@ -131,6 +137,17 @@ public class MainActivity extends BaseActivity {
                         });
 
 
+                        //set the onclick listener for the message view to switch to chat View
+                        holder.messageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(MainActivity.this, FindUserActivity.class);
+                                Common.createNewChat(user.getPhoneNumber());
+                                startActivity(intent);
+                            }
+                        });
+
+
 
                     }
 
@@ -141,14 +158,7 @@ public class MainActivity extends BaseActivity {
                 });
 
 
-                //set the onclick listener for the message view to switch to chat View
-                holder.messageView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(MainActivity.this, ChatActivity.class);
-                        startActivity(intent);
-                    }
-                });
+
             }
 
             @NonNull
@@ -245,6 +255,55 @@ public class MainActivity extends BaseActivity {
         }
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu,menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                searchIntent.putExtra("searchQuery", query);
+                startActivity(searchIntent);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                menuRecyclerView.setAdapter(null);
+                if (!newText.isEmpty()){
+
+                    query = jobRef.orderByKey().orderByChild("location").orderByChild("area").equalTo(newText);
+
+                    options = new FirebaseRecyclerOptions.Builder<Job>()
+                            .setQuery(query, Job.class)
+                            .build();
+
+                }else {
+
+                    query = jobRef.orderByKey();
+
+                    options = new FirebaseRecyclerOptions.Builder<Job>()
+                            .setQuery(query, Job.class)
+                            .build();
+                    Log.i("MainActivity", "else opei");
+                }
+                loadMenu();
+                mCategoryAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+
+        return true;
     }
 
 

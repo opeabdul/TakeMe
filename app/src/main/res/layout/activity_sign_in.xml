@@ -4,22 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#10273e"
+    android:background="@android:color/white"
+    android:paddingHorizontal="30dp"
+    android:paddingTop="35dp"
     tools:context=".SignInActivity">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/sign_in_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_margin="8dp"
-        android:text="SIGN IN"
-        android:textSize="32sp"
-        android:textColor="@android:color/white"/>
+        android:layout_marginBottom="30dp"
+        android:orientation="vertical"
+        android:padding="2dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="30dp"
+            android:src="@drawable/take_me_logo" />
+
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@+id/sign_in_info_layout"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:orientation="vertical">
@@ -29,47 +41,79 @@
             android:id="@+id/edit_phone_signin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="phone number"
+            android:layout_marginBottom="5dp"
+            android:hint="@string/phoneNumber"
             android:inputType="phone"
             android:text="07062709410"
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"
-            android:textSize="32sp"
-            app:met_baseColor="@android:color/white"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/black"
+            android:textSize="24sp"
+            app:met_baseColor="@android:color/black"
             app:met_floatingLabel="highlight"
-            app:met_maxCharacters="1"
-            app:met_primaryColor="@android:color/white"
-            app:met_singleLineEllipsis="true" />
+            app:met_primaryColor="@color/colorPrimary"
+            app:met_singleLineEllipsis="true"
+            app:met_underlineColor="#d4dade" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edit_password_signin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="password"
+            android:layout_marginBottom="10dp"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:text="1234"
-            android:textColor="@android:color/white"
-            android:textColorHint="@android:color/white"
-            android:textSize="32sp"
-            app:met_baseColor="@android:color/white"
+            android:textColor="@android:color/black"
+            android:textColorHint="@android:color/black"
+            android:textSize="24sp"
+            app:met_baseColor="@android:color/black"
             app:met_floatingLabel="highlight"
-            app:met_maxCharacters="1"
-            app:met_primaryColor="@android:color/white"
-            app:met_singleLineEllipsis="true" />
+            app:met_primaryColor="@color/colorPrimary"
+            app:met_singleLineEllipsis="true"
+            app:met_underlineColor="#d4dade" />
 
+        <Button
+            android:id="@+id/btn_sign_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@color/colorPrimary"
+            android:shadowColor="@android:color/black"
+            android:text="@string/login"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:text="@string/forgot_password"
+            android:textColor="@color/colorPrimary" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="2dp"
+                android:text="@string/dont_have_account" />
+
+            <TextView
+                android:id="@+id/register_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/register"
+                android:textColor="@color/colorPrimary" />
+
+        </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_sign_in"
-        android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:text="Sign In"
-        android:textColor="@android:color/white"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_take_me"
-        android:layout_margin="8dp"
-        android:shadowColor="@android:color/black"
-        android:background="@color/btnSignActive"/>
+
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.opeyemi.takeme.common.Common;
@@ -25,6 +26,7 @@ public class SignInActivity extends AppCompatActivity {
 
     Button btnSingIn;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,14 @@ public class SignInActivity extends AppCompatActivity {
         editPassword = (EditText) findViewById(R.id.edit_password_signin);
         btnSingIn = (Button) findViewById(R.id.btn_sign_in);
 
+        TextView registerTextView = findViewById(R.id.register_textView);
+        registerTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SignInActivity.this, SignUpActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+            }
+        });
 
         //intialize Firebase
         FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
@@ -48,9 +58,7 @@ public class SignInActivity extends AppCompatActivity {
                 mProgressDialog.setMessage("please wait...");
                 mProgressDialog.show();
 
-
                 table_user.addListenerForSingleValueEvent(new ValueEventListener() {
-
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -67,11 +75,10 @@ public class SignInActivity extends AppCompatActivity {
                                 Intent homeIntent = new Intent(getApplicationContext(), MainActivity.class);
                                 homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(homeIntent);
-                                finish();
+                                SignInActivity.this.finish();
                             } else {
                                 Toast.makeText(SignInActivity.this, "wrong username or password", Toast.LENGTH_SHORT).show();
                             }
-
 
                         }
                         else
@@ -98,7 +105,5 @@ public class SignInActivity extends AppCompatActivity {
         if(Common.currentUser != null){
             startActivity(new Intent (SignInActivity.this, MainActivity.class));
         }
-
-
     }
 }

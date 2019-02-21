@@ -96,7 +96,7 @@ public class ChatActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_chat);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Set default username is anonymous.
@@ -104,10 +104,10 @@ public class ChatActivity extends AppCompatActivity {
 
 
         // Initialize ProgressBar and RecyclerView.
-        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
-        mMessageRecyclerView = (RecyclerView) findViewById(R.id.messageRecyclerView);
+        mProgressBar =  findViewById(R.id.progressBar);
+        mMessageRecyclerView = findViewById(R.id.messageRecyclerView);
         mLinearLayoutManager = new LinearLayoutManager(this);
-        mLinearLayoutManager.setStackFromEnd(true);
+        //mLinearLayoutManager.setStackFromEnd(true);
         mMessageRecyclerView.setLayoutManager(mLinearLayoutManager);
 
 
@@ -462,13 +462,4 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
-
-    //implementing BaseActivity abstract method one and two
-    public int getContentViewId() {
-        return R.layout.activity_chat;
-    }
-
-    public int getNavigationMenuItemId() {
-        return R.id.navigation_chat;
-    }
 }

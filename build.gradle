@@ -5,15 +5,9 @@ buildscript {
     repositories {
         google()
         jcenter()
-       //maven { url 'https://maven.fabric.io/public' }
+       maven { url 'https://maven.fabric.io/public' }
 
-        if ('allow' == System.properties['build.network_access']) {
-            mavenCentral()
-        } else {
-            maven {
-                url 'https://maven.fabric.io/public'
-            }
-        }
+
 
 
     }

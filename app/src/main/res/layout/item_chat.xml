@@ -6,7 +6,11 @@
     android:id="@+id/layout"
     android:orientation="vertical"
     android:padding="5dp"
-    android:layout_margin="3dp">
+    android:layout_marginRight="30dp"
+    android:layout_marginLeft="3dp"
+    android:layout_marginBottom="6dp"
+    android:background="@drawable/chat_message_background"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -20,12 +24,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/chat"
-        android:visibility="invisible"/>
+        android:textSize="24sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        tools:text="How are you"
+        />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/sender" />
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:id="@+id/sender"
+        tools:text="07062709410"/>
 
 
 </LinearLayout>

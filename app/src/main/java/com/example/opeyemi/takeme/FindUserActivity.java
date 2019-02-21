@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FindUserActivity extends AppCompatActivity {
+public class FindUserActivity extends BaseActivity {
 
     private RecyclerView userListRecyclerView;
     private UserListAdapter mUserListAdapter;
@@ -41,7 +41,7 @@ public class FindUserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_find_user);
+
 
         initializeRecyclerView();
         initializeUserForOneSignalUse();
@@ -248,6 +248,7 @@ public class FindUserActivity extends AppCompatActivity {
 
     }
 
+
     private void requestContactAccessPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions( new String[] {Manifest.permission.READ_CONTACTS,
@@ -266,12 +267,12 @@ public class FindUserActivity extends AppCompatActivity {
 
     }
 
-    //@Override
+    @Override
     public int getContentViewId() {
         return R.layout.activity_find_user;
     }
 
-    //@Override
+    @Override
     public int getNavigationMenuItemId() {
         return R.id.navigation_chat;
     }

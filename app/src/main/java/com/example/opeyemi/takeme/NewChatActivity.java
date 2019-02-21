@@ -39,9 +39,6 @@ public class NewChatActivity extends AppCompatActivity {
     private ArrayList<ChatObject> chatList;
     private LinearLayoutManager linearLayoutManager;
 
-    private static final String LOADING_IMAGE_URL = "https://www.google.com/images/spin-32.gif";
-
-
     ChatObject mChatObject;
 
     DatabaseReference mChatMessagesDb;
@@ -50,10 +47,13 @@ public class NewChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_chat);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
 
         if(getIntent() != null){
             mChatObject = (ChatObject) getIntent().getSerializableExtra("chatObject");
         }
+
 
 
         mChatMessagesDb = FirebaseDatabase.getInstance().getReference().child("chat").child(mChatObject.getChatId()).child("messages");
@@ -88,7 +88,7 @@ public class NewChatActivity extends AppCompatActivity {
 
             DatabaseReference newMessageDB = mChatMessagesDb.push();
 
-            HashMap<> newMessageMap = new HashMap<>();
+            HashMap<String, Object> newMessageMap = new HashMap<>();
             newMessageMap.put("text", messageEditText.getText().toString());
             newMessageMap.put("creator", Common.currentUser.getName());
 
@@ -152,7 +152,7 @@ public class NewChatActivity extends AppCompatActivity {
         });
     }
 
-    public void updateChatDatabaseWithMessage(Map messageMap, DatabaseReference messageDb){
+    public void updateChatDatabaseWithMessage(Map<String, Object> messageMap, DatabaseReference messageDb){
 
         messageDb.updateChildren(messageMap);
 
@@ -180,15 +180,14 @@ public class NewChatActivity extends AppCompatActivity {
                     String  text= "";
                     String image="";
 
-                    if (dataSnapshot.child("creator").getValue() != null){
+                    if (dataSnapshot.child("creator").getValue() != null)
                         creator = dataSnapshot.child("creator").getValue().toString();
-                    }
-                    if (dataSnapshot.child("text").getValue() != null){
+
+                    if (dataSnapshot.child("text").getValue() != null)
                         text = dataSnapshot.child("text").getValue().toString();
-                    }
-                    if (dataSnapshot.child("image").getValue() != null){
+
+                    if (dataSnapshot.child("image").getValue() != null)
                         image = dataSnapshot.child("image").getValue().toString();
-                    }
 
                     ChatObject chatObject = new ChatObject(dataSnapshot.getKey(), creator, text, image);
 
