@@ -53,7 +53,6 @@
         app:pressedTranslationZ="12dp"
         app:elevation="6dp"
         app:useCompatPadding="true"
-
         android:src="@drawable/ic_account_circle_black_36dp" />
 
     <android.support.design.widget.FloatingActionButton
@@ -208,7 +207,7 @@
                         android:lineSpacingMultiplier="1.5"
                         android:padding="8dp"
                         android:layout_gravity="center"
-                        android:text="@string/date"
+                        android:text="04-03-2019"
                         android:textColor="@android:color/primary_text_light"
                         android:textSize="14sp" />
                 </LinearLayout>

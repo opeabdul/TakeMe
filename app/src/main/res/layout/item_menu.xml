@@ -81,13 +81,13 @@
             android:layout_height="wrap_content"
             android:gravity="start"
             android:padding="5dp"
+            android:textColor="@android:color/black"
             android:text="A Labourer"
             android:textSize="15sp" />
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="1dp"
             android:layout_marginBottom="10dp"
             android:background="@android:color/darker_gray">
 
@@ -178,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/rectangle_color_primary"
+                        android:background="@drawable/background_rectangle_color_accent"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -231,7 +231,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/rectangle_color_primary"
+                android:background="@drawable/background_rectangle_color_accent"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="5dp">
@@ -255,7 +255,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
-                android:background="@drawable/rectangle_color_primary"
+                android:background="@drawable/background_rectangle_color_accent"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="5dp">
@@ -278,7 +278,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@drawable/rectangle_color_primary"
+                android:background="@drawable/background_rectangle_color_accent"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="5dp">

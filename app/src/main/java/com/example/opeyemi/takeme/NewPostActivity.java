@@ -2,7 +2,6 @@ package com.example.opeyemi.takeme;
 
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,7 +19,6 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.opeyemi.takeme.bottomNavigationViewHelper.BaseActivity;
@@ -29,21 +27,16 @@ import com.example.opeyemi.takeme.model.Job;
 import com.example.opeyemi.takeme.model.Location;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -69,6 +62,7 @@ public class NewPostActivity extends BaseActivity {
     private String mJobCity;
     private String mJobState;
     private String mAllowCall;
+    private ProgressBar mImageLoadingProgressBar;
 
 
     FirebaseStorage mFirebaseStorage = FirebaseStorage.getInstance();
@@ -95,7 +89,7 @@ public class NewPostActivity extends BaseActivity {
         mStateEditText = findViewById(R.id.state_edit_text);
         mJobCardView = findViewById(R.id.job_image_card_view);
         mMakeCallCheckbox = findViewById(R.id.make_a_call_checkbox);
-
+        mImageLoadingProgressBar = findViewById(R.id.image_loading_progress_bar);
 
         mJobCardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +113,7 @@ public class NewPostActivity extends BaseActivity {
         if (requestCode == REQUEST_IMAGE && resultCode == RESULT_OK && data.getData() != null && data != null) {
 
             filePath = data.getData();
+
             try {
 
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
@@ -133,16 +128,20 @@ public class NewPostActivity extends BaseActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+
         startActivity(new Intent(NewPostActivity.this, MainActivity.class));
         finish();
         return true;
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.new_post_menu, menu);
         return true;
+
     }
 
     @Override
@@ -159,15 +158,16 @@ public class NewPostActivity extends BaseActivity {
 
                 return true;
         }
+
         return super.onOptionsItemSelected(item);
+
     }
 
     private void uploadImage() {
         if (filePath != null) {
 
+            mImageLoadingProgressBar.setVisibility(View.VISIBLE);
 
-            final ProgressBar progressBar = findViewById(R.id.image_loading_progress_bar);
-            progressBar.setVisibility(View.VISIBLE);
 
             final StorageReference storageReference = mFirebaseStorage.getReference(Common.currentUser.getPhoneNumber())
                     .child(String.valueOf(System.currentTimeMillis()));
@@ -186,7 +186,7 @@ public class NewPostActivity extends BaseActivity {
             task.addOnCompleteListener(new OnCompleteListener<Uri>() {
                 @Override
                 public void onComplete(@NonNull Task<Uri> task) {
-                    progressBar.setVisibility(View.INVISIBLE);
+                    mImageLoadingProgressBar.setVisibility(View.INVISIBLE);
                     createNewPost(task.getResult().toString());
                 }
             });
@@ -197,7 +197,7 @@ public class NewPostActivity extends BaseActivity {
             alertDialog.setTitle(R.string.upload_image)
 
                     .setMessage(R.string.make_post_without_image)
-                    .setIcon(R.drawable.ic_image_black_26dp)
+                    .setIcon(R.drawable.ic_image_blue_24dp)
 
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
@@ -250,16 +250,19 @@ public class NewPostActivity extends BaseActivity {
 
     private void createNewPost(String imageUrl) {
         //Create a new job from details of the edit texts.
-        Date date = new Date();
-        String day = DateFormat.format("dd", date).toString();
-        String monthString = DateFormat.format("MMM", date).toString();
+        //Date date = new Date();
+        //String day = DateFormat.format("dd", date).toString();
+        //String monthString = DateFormat.format("MMM", date).toString();
+
+        String timestamp = String.valueOf(new Timestamp(new Date().getTime()).getTime());
+
         String currentUserID = Common.currentUser.getPhoneNumber();
 
         Log.e("NewPostActivity", "currentUserId: " + currentUserID);
 
         //Create a new location object using the values from the edit text
         Location location = new Location(mJobAddress, mJobArea, mJobCity, mJobState);
-        Job job = new Job(mJobTitle, mJobDescription, imageUrl, location, mJobAmount, day, monthString, "1", currentUserID);
+        Job job = new Job(mJobTitle, mJobDescription, imageUrl, location, mJobAmount, timestamp, "1", currentUserID);
 
         //push job post details to the database
         jobDatabaseReference.orderByKey();

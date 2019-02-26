@@ -11,10 +11,10 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.opeyemi.takeme.ProfileFragments.JobPostFragment;
-import com.example.opeyemi.takeme.ProfileFragments.dummy.DummyContent;
 import com.example.opeyemi.takeme.bottomNavigationViewHelper.BaseActivity;
 import com.example.opeyemi.takeme.ProfileFragments.ProfileTabFragmentPagerAdapter;
 import com.example.opeyemi.takeme.common.Common;
+import com.example.opeyemi.takeme.model.Job;
 import com.onesignal.OneSignal;
 
 public class ProfileActivity extends BaseActivity implements JobPostFragment.OnListFragmentInteractionListener {
@@ -53,7 +53,7 @@ public class ProfileActivity extends BaseActivity implements JobPostFragment.OnL
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(Job job) {
 
     }
 

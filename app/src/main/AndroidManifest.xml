@@ -37,7 +37,9 @@
         <activity
             android:name=".SignUpActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ProfileActivity" />
+        <activity android:name=".ProfileActivity"
+            android:label="@string/title_profile"
+            android:theme="@style/AppTheme.NoActionBar"/>
 
         <activity android:name=".ChatActivity">
             <intent-filter>

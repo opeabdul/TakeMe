@@ -53,11 +53,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:16.0.5'
     implementation 'com.google.firebase:firebase-auth:16.1.0'
     implementation 'com.google.firebase:firebase-config:16.3.0'
-    //implementation "com.google.android.gms:play-services-location:${gms.location}"
+    implementation "com.google.android.gms:play-services-location:16.0.0"
     implementation 'com.google.android.gms:play-services-appinvite:16.1.0'
     implementation 'com.google.android.gms:play-services-basement:16.2.0'
+    implementation 'com.google.android.gms:play-services-gcm:16.1.0'
     implementation 'com.google.firebase:firebase-appindexing:17.1.0'
-    implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-messaging:17.4.0'
     implementation 'com.google.firebase:firebase-core:16.0.7'
     implementation 'com.firebaseui:firebase-ui-database:3.3.1'
 

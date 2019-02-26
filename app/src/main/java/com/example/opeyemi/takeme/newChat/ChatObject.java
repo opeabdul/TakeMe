@@ -4,6 +4,7 @@ import com.example.opeyemi.takeme.model.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ChatObject implements Serializable {
 
@@ -11,6 +12,7 @@ public class ChatObject implements Serializable {
     private String mSenderId;
     private String mMessage;
     private String mImage;
+    private String mTimeStamp;
 
     private ArrayList<User> userObjectArrayList = new ArrayList<>();
 
@@ -21,11 +23,12 @@ public class ChatObject implements Serializable {
         mChatId = chatId;
     }
 
-    public ChatObject(String chatId, String sender, String message, String image){
+    public ChatObject(String chatId, String senderId, String message, String image, String timeStamp){
         mChatId = chatId;
-        mSenderId = sender;
+        mSenderId = senderId;
         mMessage = message;
         mImage = image;
+        mTimeStamp = timeStamp;
     }
 
     public void addUserToChat(User user){
@@ -64,7 +67,16 @@ public class ChatObject implements Serializable {
         return mChatId;
     }
 
-    public void setmChatId(String chatId) {
+    public void setChatId(String chatId) {
         this.mChatId = chatId;
     }
+
+    public String getTimeStamp() {
+        return mTimeStamp;
+    }
+
+    public void setTimeStamp(String mCreateAt) {
+        this.mTimeStamp = mCreateAt;
+    }
 }
+

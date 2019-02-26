@@ -1,15 +1,17 @@
 package com.example.opeyemi.takeme.model;
 
-public class Job {
+import java.io.Serializable;
 
-    private String id, title,description, image, price, day, month, categoryId, userID;
+public class Job implements Serializable {
+
+    private String id, title,description, image, price, timestamp, categoryId, userID;
     private Location location;
     private Job(){
 
     }
 
     public Job(String title, String description, String image, Location location,
-                String price, String day, String month,
+                String price, String timestamp,
                 String categoryId, String userId){
 
         this.title = title;
@@ -18,10 +20,14 @@ public class Job {
         this.image = image;
         this.location = location;
         this.price = price;
-        this.day = day;
-        this.month = month;
+        this.timestamp = timestamp;
         this.categoryId = categoryId;
         this.userID = userId;
+    }
+
+    public Job(String title, String image){
+        this.title = title;
+        this.image = image;
     }
 
     public String getId() {
@@ -72,20 +78,12 @@ public class Job {
         this.price = price;
     }
 
-    public String getDay() {
-        return day;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public void setDay(String day) {
-        this.day = day;
-    }
-
-    public String getMonth() {
-        return month;
-    }
-
-    public void setMonth(String month) {
-        this.month = month;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getCategoryId() {

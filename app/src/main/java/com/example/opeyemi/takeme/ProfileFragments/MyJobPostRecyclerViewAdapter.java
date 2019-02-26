@@ -4,42 +4,46 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.opeyemi.takeme.ProfileFragments.JobPostFragment.OnListFragmentInteractionListener;
-import com.example.opeyemi.takeme.ProfileFragments.dummy.DummyContent.DummyItem;
 import com.example.opeyemi.takeme.R;
+import com.example.opeyemi.takeme.model.Job;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Job} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MyJobPostRecyclerViewAdapter extends RecyclerView.Adapter<MyJobPostRecyclerViewAdapter.ViewHolder> {
+public class MyJobPostRecyclerViewAdapter extends RecyclerView.Adapter<MyJobPostRecyclerViewAdapter.ProfileJobsViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<Job> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyJobPostRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    public MyJobPostRecyclerViewAdapter(List<Job> jobItems, OnListFragmentInteractionListener listener) {
+        mValues = jobItems;
         mListener = listener;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProfileJobsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.job_post_item, parent, false);
-        return new ViewHolder(view);
+                .inflate(R.layout.item_job_post, parent, false);
+        return new ProfileJobsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+    public void onBindViewHolder(final ProfileJobsViewHolder holder, int position) {
 
+
+        Picasso.with(holder.mJobImageView.getContext()).load(mValues.get(position)
+                .getImage()).into(holder.mJobImageView);
+
+        holder.mPostTitleView.setText(mValues.get(position).getTitle());
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,22 +61,22 @@ public class MyJobPostRecyclerViewAdapter extends RecyclerView.Adapter<MyJobPost
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ProfileJobsViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final ImageView mJobImageView;
+        public final TextView mPostTitleView;
+        public Job mItem;
 
-        public ViewHolder(View view) {
+        public ProfileJobsViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.item_number);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mJobImageView =  view.findViewById(R.id.job_item_image);
+            mPostTitleView = view.findViewById(R.id.job_title);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mPostTitleView.getText() + "'";
         }
     }
 }

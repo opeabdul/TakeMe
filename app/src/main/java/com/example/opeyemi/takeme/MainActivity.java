@@ -11,16 +11,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -39,6 +38,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.Date;
 
 
 public class MainActivity extends BaseActivity {
@@ -98,7 +99,10 @@ public class MainActivity extends BaseActivity {
                         .into(holder.jobImageView);
                 holder.menuJobLocationTextView.setText(getString(R.string.job_location_details,
                         model.getLocation().getArea(), model.getLocation().getCity()));
-                holder.menuDateTextView.setText(getString(R.string.date_posted, model.getDay(), model.getMonth()));
+                if(model.getTimestamp() != null){
+                    holder.menuDateTextView.setText(DateFormat.format("dd:MMM", new Date(Long.valueOf(model.getTimestamp()))));
+                }
+
                 holder.moneyTextView.setText(model.getPrice());
 
                 //Get the user (owner of the job) details for the the the particular job
@@ -131,7 +135,8 @@ public class MainActivity extends BaseActivity {
                                 Intent intent = new Intent(MainActivity.this, JobDetailsActivity.class);
                                 Log.e(TAG, "holder adapter position: "+ holder.getAdapterPosition());
 
-                                intent = putExtrasIntoIntent(intent, user, model);
+                                intent.putExtra("userObject", user);
+                                intent.putExtra("jobObject", model);
                                 startActivity(intent);
                             }
                         });
@@ -165,7 +170,7 @@ public class MainActivity extends BaseActivity {
             @Override
             public MenuVeiwHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-                View view = inflater.inflate(R.layout.menu_item, parent, false);
+                View view = inflater.inflate(R.layout.item_menu, parent, false);
                 return new MenuVeiwHolder(view);
             }
 
@@ -177,8 +182,8 @@ public class MainActivity extends BaseActivity {
     private Intent putExtrasIntoIntent(Intent intent, User user, Job model) {
         intent.putExtra("jobOwnerName", user.getName())
                 .putExtra("jobOwnerPhone", user.getPhoneNumber())
-                .putExtra("jobPostedDay",model.getDay())
-                .putExtra("jobPostedMonth", model.getMonth())
+                //.putExtra("jobPostedDay",model.getDay())
+                //.putExtra("jobPostedMonth", model.getMonth())
                 .putExtra("jobImage",model.getImage())
                 .putExtra("jobDescription", model.getDescription())
                 .putExtra("jobLocationAddress", model.getLocation().getAddress())
@@ -269,41 +274,46 @@ public class MainActivity extends BaseActivity {
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
                 searchIntent.putExtra("searchQuery", query);
                 startActivity(searchIntent);
                 return false;
+
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                menuRecyclerView.setAdapter(null);
-                if (!newText.isEmpty()){
 
-                    query = jobRef.orderByKey().orderByChild("location").orderByChild("area").equalTo(newText);
-
-                    options = new FirebaseRecyclerOptions.Builder<Job>()
-                            .setQuery(query, Job.class)
-                            .build();
-
-                }else {
-
-                    query = jobRef.orderByKey();
-
-                    options = new FirebaseRecyclerOptions.Builder<Job>()
-                            .setQuery(query, Job.class)
-                            .build();
-                    Log.i("MainActivity", "else opei");
-                }
-                loadMenu();
-                mCategoryAdapter.notifyDataSetChanged();
-                return true;
+                searchFirebase(newText);
+                return false;
             }
         });
 
-        return true;
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    private void searchFirebase(String searchText){
+
+        if(searchText.isEmpty()){
+            query = jobRef.orderByKey();
+
+            options = new FirebaseRecyclerOptions.Builder<Job>()
+                    .setQuery(query, Job.class)
+                    .build();
+        }else {
+
+            Query fireBaseSearchQuery = jobRef.orderByChild("description").startAt(searchText).endAt(searchText + "\uf8ff");
+
+            options = new FirebaseRecyclerOptions.Builder<Job>()
+                    .setQuery(fireBaseSearchQuery, Job.class)
+                    .build();
+        }
+
+        loadMenu();
+
     }
 
 

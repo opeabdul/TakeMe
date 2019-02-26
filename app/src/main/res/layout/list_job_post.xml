@@ -10,4 +10,4 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".ProfileFragments.JobPostFragment"
-    tools:listitem="@layout/job_post_item" />
+    tools:listitem="@layout/item_job_post" />

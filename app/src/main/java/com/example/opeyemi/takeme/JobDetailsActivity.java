@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,12 +17,15 @@ import android.widget.TextView;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.opeyemi.takeme.model.Job;
+import com.example.opeyemi.takeme.model.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.Date;
 
 public class JobDetailsActivity extends AppCompatActivity {
 
@@ -33,6 +37,9 @@ public class JobDetailsActivity extends AppCompatActivity {
     private TextView dateTextView;
     private TextView locationTextView;
     private TextView userPhoneTextView;
+
+    private Job jobObject;
+    private User userObject;
 
     private final String  TAG = "JOBDETAILSACTIVITY";
 
@@ -50,9 +57,7 @@ public class JobDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_job_details);
 
-        //Firebase
-        database = FirebaseDatabase.getInstance();
-        jobDbRef = database.getReference("job");
+
 
 
         //init View
@@ -71,23 +76,27 @@ public class JobDetailsActivity extends AppCompatActivity {
         collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppbar);
         setTextAppearanceCollapseAppbar();
 
+
         Intent intent = getIntent();
         if (intent != null){
 
-            jobDescription.setText(intent.getStringExtra("jobDescription"));
-            Picasso.with(JobDetailsActivity.this).load(intent.getStringExtra("jobImage")).into(jobImage);
-            jobPrice.setText(intent.getStringExtra("jobPrice"));
-            jobName.setText(getString(R.string.job_name,intent.getStringExtra("jobName")));
-            collapsingToolbarLayout.setTitle(intent.getStringExtra("jobOwnerName"));
-            Picasso.with(JobDetailsActivity.this).load(intent.getStringExtra("jobImage")).into(userImageView);
+            userObject = (User) intent.getSerializableExtra("userObject");
+            jobObject = (Job)  intent.getSerializableExtra("jobObject");
 
-            dateTextView.setText(getString(R.string.date, intent.getStringExtra("jobPostedDay"),
-                    intent.getStringExtra("jobPostedMonth"), intent.getStringExtra("jobPostedMonth")));
+
+            jobDescription.setText(jobObject.getDescription());
+            Picasso.with(JobDetailsActivity.this).load(jobObject.getImage()).into(jobImage);
+            jobPrice.setText(jobObject.getPrice());
+            jobName.setText(getString(R.string.job_name,jobObject.getTitle()));
+            collapsingToolbarLayout.setTitle(userObject.getName());
+            Picasso.with(JobDetailsActivity.this).load(jobObject.getImage()).into(userImageView);
+
+            dateTextView.setText(DateFormat.format("dd-mm-yyyy",new Date(Long.valueOf(jobObject.getTimestamp()))));
             locationTextView.setText(getString(R.string.location,
-                    intent.getStringExtra("jobLocationAddress"),
-                    intent.getStringExtra("jobLocationArea"),
-                    intent.getStringExtra("jobLocationCity"),
-                    intent.getStringExtra("jobLocationState")));
+                    jobObject.getLocation().getAddress(),
+                    jobObject.getLocation().getArea(),
+                    jobObject.getLocation().getCity(),
+                    jobObject.getLocation().getCity()));
         }
 
         fab =  findViewById(R.id.fab);

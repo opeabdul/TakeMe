@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -28,9 +31,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 
+import java.sql.Timestamp;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class NewChatActivity extends AppCompatActivity {
 
@@ -38,6 +46,8 @@ public class NewChatActivity extends AppCompatActivity {
     private ChatListAdapter chatListAdapter;
     private ArrayList<ChatObject> chatList;
     private LinearLayoutManager linearLayoutManager;
+    private EditText messageEditText;
+
 
     ChatObject mChatObject;
 
@@ -47,18 +57,16 @@ public class NewChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_chat);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
 
         if(getIntent() != null){
             mChatObject = (ChatObject) getIntent().getSerializableExtra("chatObject");
         }
 
-
-
         mChatMessagesDb = FirebaseDatabase.getInstance().getReference().child("chat").child(mChatObject.getChatId()).child("messages");
 
-        ImageView sendMessageButton = findViewById(R.id.send_message_image_button);
+        ImageView sendMessageButton =  findViewById(R.id.send_message_image_button);
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,26 +83,62 @@ public class NewChatActivity extends AppCompatActivity {
             }
         });
 
+
+
+        messageEditText = findViewById(R.id.send_edit_text);
+        addListenerToMessageEditText(sendMessageButton);
+
+
         initializeRecyclerView();
         getChatMessages();
 
     }
 
+    private void addListenerToMessageEditText(final ImageView sendMessageButton){
+        messageEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.toString().isEmpty()){
+                    sendMessageButton.setBackground(getResources().getDrawable(R.drawable.background_rounded_grey));
+                } else {
+                    sendMessageButton.setBackground(getResources().getDrawable(R.drawable.background_rounded_blue));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+    }
+
     private void sendMessage(){
 
-        EditText messageEditText = findViewById(R.id.send_edit_text);
+
 
         if (!messageEditText.getText().toString().isEmpty()){
+
+
+            Timestamp timestamp = new Timestamp(new Date().getTime());
 
             DatabaseReference newMessageDB = mChatMessagesDb.push();
 
             HashMap<String, Object> newMessageMap = new HashMap<>();
             newMessageMap.put("text", messageEditText.getText().toString());
             newMessageMap.put("creator", Common.currentUser.getName());
+            newMessageMap.put("chatId", Common.currentUser.getPhoneNumber());
+            newMessageMap.put("timestamp", timestamp.getTime());
 
             updateChatDatabaseWithMessage( newMessageMap, newMessageDB);
 
             messageEditText.setText(null);
+
+
         }
 
 
@@ -139,12 +183,14 @@ public class NewChatActivity extends AppCompatActivity {
                 chatImageStorage.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-
+                        Timestamp timestamp = new Timestamp(new Date().getTime());
                         Map<String, Object> newMessageMap = new HashMap<>();
                         newMessageMap.put("image", uri.toString());
-                        newMessageMap.put("creator", Common.currentUser.getPhoneNumber());
+                        newMessageMap.put("creator", Common.currentUser.getName());
+                        newMessageMap.put("chatId", Common.currentUser.getPhoneNumber());
+                        newMessageMap.put("timestamp", timestamp.getTime());
 
-                        updateChatDatabaseWithMessage(newMessageMap, mChatMessagesDb);
+                        updateChatDatabaseWithMessage(newMessageMap, mChatMessagesDb.child(key));
 
                     }
                 });
@@ -179,6 +225,8 @@ public class NewChatActivity extends AppCompatActivity {
                     String creator = "";
                     String  text= "";
                     String image="";
+                    String messageTime="";
+                    String chatId = "";
 
                     if (dataSnapshot.child("creator").getValue() != null)
                         creator = dataSnapshot.child("creator").getValue().toString();
@@ -189,7 +237,16 @@ public class NewChatActivity extends AppCompatActivity {
                     if (dataSnapshot.child("image").getValue() != null)
                         image = dataSnapshot.child("image").getValue().toString();
 
-                    ChatObject chatObject = new ChatObject(dataSnapshot.getKey(), creator, text, image);
+                    if (dataSnapshot.child("timestamp").getValue() != null){
+                        messageTime = dataSnapshot.child("timestamp").getValue().toString();
+                        messageTime = (String) DateFormat.format("HH:mm", new Date(Long.valueOf(messageTime)));
+                    }
+
+                    if(dataSnapshot.child("chatId").getValue() != null)
+                        chatId = dataSnapshot.child("chatId").getValue().toString();
+
+
+                    ChatObject chatObject = new ChatObject(chatId, creator, text, image, messageTime);
 
                     chatList.add(chatObject);
                     chatListAdapter.notifyDataSetChanged();
@@ -227,6 +284,14 @@ public class NewChatActivity extends AppCompatActivity {
         chatListRecyclerView.setLayoutManager(linearLayoutManager);
         chatListRecyclerView.setAdapter(chatListAdapter);
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        startActivity(new Intent(getApplicationContext(), FindUserActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY));
+        finish();
+        return true;
     }
 
     @Override

@@ -12,7 +12,6 @@
 
     <!-- For Main menu -->
     <string name="job_location_details">%1$s, %2$s.</string>
-    <string name="date_posted">%1$s %2$s</string>
     <string name="need">needs</string>
     <string name="search">search</string>
     <string name="at">at</string>
@@ -44,7 +43,6 @@
     <string name="description">Job Description</string>
     <string name="location">%1$s %2$s, \n %3$s, %4$s. </string>
     <string name="job_name"> %1$s needed</string>
-    <string name="date">%1$s %2$s %3$s </string>
     <!--Job details Activity Ends-->
 
     <!-- For Chat Section -->

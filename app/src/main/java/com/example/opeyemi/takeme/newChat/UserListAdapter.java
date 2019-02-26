@@ -1,7 +1,6 @@
 package com.example.opeyemi.takeme.newChat;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import com.example.opeyemi.takeme.NewChatActivity;
 import com.example.opeyemi.takeme.R;
 import com.example.opeyemi.takeme.common.Common;
 import com.example.opeyemi.takeme.model.User;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -41,7 +39,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
     public UserListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.user_list_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.item_user_list, parent, false);
 
         return new UserListViewHolder(view);
     }
