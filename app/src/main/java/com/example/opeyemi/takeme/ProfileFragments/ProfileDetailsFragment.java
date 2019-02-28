@@ -19,13 +19,12 @@ import com.example.opeyemi.takeme.common.Common;
  */
 public class ProfileDetailsFragment extends Fragment {
 
-    private TextView mNameTextView;
+
     private TextView mAddressTextView;
     private TextView mPhoneNumberTextView;
     private TextView mEmailTextView;
     private TextView mSkillsTextView;
     private FloatingActionButton editProfileFloatingActionButton;
-
 
     public ProfileDetailsFragment() {
         // Required empty public constructor
@@ -39,14 +38,12 @@ public class ProfileDetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_details,container,false);
 
-        mNameTextView = view.findViewById(R.id.profile_name_TextView);
+
         mAddressTextView = view.findViewById(R.id.profile_address_TextView);
         mPhoneNumberTextView = view.findViewById(R.id.profile_phone_number_TextView);
         mEmailTextView = view.findViewById(R.id.profile_email_TextView);
         mSkillsTextView = view.findViewById(R.id.profile_skills_TextView);
         editProfileFloatingActionButton = view.findViewById(R.id.edit_profile_floatingActionButton);
-        mNameTextView.setText(Common.currentUser.getName());
-        mNameTextView.setText(Common.currentUser.getName());
         mPhoneNumberTextView.setText(Common.currentUser.getPhoneNumber());
 
         editProfileFloatingActionButton.setOnClickListener(new View.OnClickListener() {

@@ -208,8 +208,10 @@ public class FindUserActivity extends BaseActivity {
                             query.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                                     if (dataSnapshot.exists()){
-                                        String name = "", phone = "";
+                                        String name = "", phone = "", image = "";
+
                                         if (dataSnapshot.child(currentPhoneNumber).child("phoneNumber").getValue() != null){
                                             phone = dataSnapshot.child(currentPhoneNumber).child("phoneNumber").getValue().toString();
                                         }
@@ -218,9 +220,14 @@ public class FindUserActivity extends BaseActivity {
                                             name = dataSnapshot.child(currentPhoneNumber).child("name").getValue().toString();
                                         }
 
-                                        User newUser = new User(name, null, phone);
+                                        if(dataSnapshot.child(currentPhoneNumber).child("image").getValue() != null){
+                                            image = dataSnapshot.child(currentPhoneNumber).child("image").getValue().toString();
+                                        }
+
+                                        User newUser = new User(name, null, phone, image);
                                         mUserList.add(newUser);
                                         mUserListAdapter.notifyDataSetChanged();
+
                                     }
                                 }
 

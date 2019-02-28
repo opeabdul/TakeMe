@@ -21,10 +21,11 @@ public class User  implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public User(String name, String password, String phoneNumber){
+    public User(String name, String password, String phoneNumber, String image){
         this.name = name;
         this.password = password;
         this.phoneNumber = phoneNumber;
+        this.image = image;
     }
 
     public String getNotificationKey() {

@@ -110,8 +110,18 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         final User user = dataSnapshot.child(model.getUserID()).getValue(User.class);
+
                         holder.jobOwnerNameTextView.setText(user.getName());
                         /*TODO get user image*/
+
+                        if(user.getImage()!= null){
+                            if(!user.getImage().equals("")){
+                                Picasso.with(holder.jobOwnerImageView.getContext())
+                                        .load(user.getImage()).into(holder.jobOwnerImageView);
+                            }
+
+                        }
+
 
 
                         //set the onclick Listener for the details to switch to job details view
@@ -127,10 +137,6 @@ public class MainActivity extends BaseActivity {
                                 startActivity(intent);
                             }
                         });
-
-
-
-
 
                     }
 

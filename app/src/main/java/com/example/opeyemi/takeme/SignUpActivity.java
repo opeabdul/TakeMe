@@ -88,7 +88,7 @@ public class SignUpActivity extends AppCompatActivity {
                         {
                             mProgressDialog.dismiss();
                             User user = new User(mEditName.getText().toString(),
-                                    mEditPassword.getText().toString(), mEditPhone.getText().toString());
+                                    mEditPassword.getText().toString(), mEditPhone.getText().toString(),null);
                             table_user.child(mEditPhone.getText().toString()).setValue(user);
                             Toast.makeText(SignUpActivity.this,
                                     "Sign up successful",Toast.LENGTH_SHORT).show();

@@ -11,12 +11,14 @@ import android.widget.TextView;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import com.example.opeyemi.takeme.FindUserActivity;
 import com.example.opeyemi.takeme.NewChatActivity;
 import com.example.opeyemi.takeme.R;
 import com.example.opeyemi.takeme.common.Common;
 import com.example.opeyemi.takeme.model.User;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,12 +52,16 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
         final String key = mUserList.get(position).getPhoneNumber();
         holder.name.setText(mUserList.get(position).getName());
         holder.phone.setText(key);
+        String imageUri = mUserList.get(position).getImage();
+        if( imageUri != null){
+            if (!imageUri.isEmpty()){
+                Picasso.with(holder.picture.getContext()).load(mUserList.get(position).getImage()).into(holder.picture);
+            }
+        }
 
         holder.mLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-
-
 
                 //Open the chat activity passing the phone number of the user current user wishes to
                 //chat with
@@ -64,28 +70,6 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
                 view.getContext().startActivity(intent);
             }
         });
-    }
-
-    private void createChat(int position, String key) {
-
-        String newChatKey = FirebaseDatabase.getInstance().getReference().child("chat").push().getKey();
-
-        Map<String, Object> newChatMap = new HashMap<>();
-        newChatMap.put(Common.currentUser.getPhoneNumber(), true);
-        newChatMap.put(key, true);
-
-        DatabaseReference chatInfoDb = FirebaseDatabase.getInstance().getReference().child("chat")
-                .child(newChatKey).child("info");
-        chatInfoDb.child("users").setValue(newChatMap);
-        chatInfoDb.child("id").setValue(newChatKey);
-
-
-        //if not set already set chat between the current user and the user clicked to be
-        //true notifying the app of their chat already in existence
-        DatabaseReference userDB = FirebaseDatabase.getInstance().getReference().child("user");
-        userDB.child(Common.currentUser.getPhoneNumber()).child("chat").child(newChatKey).setValue(key);
-        userDB.child(key).child("chat").child(newChatKey).setValue(Common.currentUser.getPhoneNumber());
-        UserListAdapter.super.notifyDataSetChanged();
     }
 
     @Override
