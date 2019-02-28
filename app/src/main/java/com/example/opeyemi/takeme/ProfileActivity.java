@@ -35,12 +35,9 @@ public class ProfileActivity extends BaseActivity implements JobPostFragment.OnL
         mProfileTab = findViewById(R.id.profile_tab);
         mProfileTab.setupWithViewPager(mProfileViewpager);
 
-
-
         //set the name of the user on profile
         mProfileNameOfUserTextView = findViewById(R.id.profileUsernameTextView);
         mProfileNameOfUserTextView.setText(Common.currentUser.getName());
-
     }
 
     //overriding BaseActivity method

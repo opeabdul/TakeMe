@@ -124,8 +124,8 @@
                         android:text="10"
                         android:textColor="@android:color/black"
                         android:textSize="12sp" />
-                </LinearLayout>
 
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -136,7 +136,7 @@
             android:id="@+id/profile_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryDark"
             app:tabMode="fixed"
             app:tabSelectedTextColor="@android:color/white"
             app:tabIndicatorColor="@android:color/white"
@@ -148,7 +148,7 @@
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:background="@color/colorPrimaryDark" />
+            android:background="@android:color/black" />
     </LinearLayout>
 
 

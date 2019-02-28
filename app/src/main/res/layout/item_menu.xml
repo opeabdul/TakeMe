@@ -20,7 +20,7 @@
             android:padding="1dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/menu_account_image"
+                android:id="@+id/user_image_view"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_alignParentTop="true"
@@ -31,8 +31,8 @@
                 android:id="@+id/job_owner_name_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/menu_account_image"
-                android:layout_toEndOf="@+id/menu_account_image"
+                android:layout_alignBaseline="@+id/user_image_view"
+                android:layout_toEndOf="@+id/user_image_view"
                 android:gravity="center"
                 android:text="@string/developer_name"
                 android:textColor="@android:color/black"
@@ -52,15 +52,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/job_raters"
-                android:layout_alignBottom="@+id/menu_account_image"
-                android:layout_toEndOf="@+id/menu_account_image"
+                android:layout_alignBottom="@+id/user_image_view"
+                android:layout_toEndOf="@+id/user_image_view"
                 android:src="@drawable/ic_star_border_black_24dp" />
 
             <TextView
                 android:id="@+id/job_raters"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/menu_account_image"
+                android:layout_alignBottom="@+id/user_image_view"
                 android:layout_marginHorizontal="2dp"
                 android:layout_toEndOf="@+id/menu_star"
                 android:text="5.0" />
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/menu_star"
-                android:layout_alignBottom="@+id/menu_account_image"
+                android:layout_alignBottom="@+id/user_image_view"
                 android:layout_toEndOf="@+id/job_raters"
                 android:text="(65)" />
         </RelativeLayout>
@@ -178,7 +178,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/background_rectangle_color_accent"
+                        android:background="@drawable/background_rectangle_color_primary_dark"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -220,50 +220,17 @@
             android:layout_marginVertical="8dp"
             android:background="@android:color/darker_gray" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_below="@id/line">
-
-            <LinearLayout
-                android:id="@+id/message_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/background_rectangle_color_accent"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_chat_bubble_white_24dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/icon_message_title"
-                    android:textColor="@android:color/white" />
-            </LinearLayout>
-
 
             <LinearLayout
                 android:id="@+id/job_details_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:background="@drawable/background_rectangle_color_accent"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="5dp">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_remove_red_eye_white_24dp" />
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -273,29 +240,8 @@
             </LinearLayout>
 
 
-            <LinearLayout
-                android:id="@+id/call_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/background_rectangle_color_accent"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_call_white_24dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/icon_call_title"
-                    android:textColor="@android:color/white" />
-            </LinearLayout>
 
 
-        </LinearLayout>
+
     </LinearLayout>
 </android.support.v7.widget.CardView>

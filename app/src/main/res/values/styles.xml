@@ -31,6 +31,7 @@
     
     
     <style name="profile_details_icons">
+        <item name="android:background">#e3e3e4</item>
         <item name="android:padding">20dp</item>
         <item name="android:layout_width">70dp</item>
         <item name="android:layout_height">70dp</item>
@@ -43,5 +44,11 @@
         <item name="android:paddingRight">10dp</item>
         <item name="android:paddingTop">50dp</item>
         <item name="android:paddingBottom">50dp</item>
+    </style>
+
+
+    <style name="customfab">
+        <item name="android:background">@drawable/background_rounded_grey</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 </resources>

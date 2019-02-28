@@ -36,13 +36,10 @@
     <!-- sign-in and Sign-up activity ends here-->
 
 
-
-
-
     <!--For Job details Activity-->
     <string name="description">Job Description</string>
-    <string name="location">%1$s %2$s, \n %3$s, %4$s. </string>
-    <string name="job_name"> %1$s needed</string>
+    <string name="location">%1$s %2$s, %3$s, %4$s. </string>
+    <string name="job_name"> %1$s</string>
     <!--Job details Activity Ends-->
 
     <!-- For Chat Section -->
@@ -76,14 +73,20 @@
 
     <!--Profile section  ends-->
 
+    <!--Profile Edit Start-->
+    <string name="edit_profile_label">Edit Profile</string>
+    <!--Profile edit  ends-->
+
+
     <!--Menu List section -->
     <string name="icon_message_title">message</string>
-    <string name="icon_job_details_title">details</string>
+    <string name="icon_job_details_title">view job details</string>
     <string name="icon_call_title">call</string>
     <!--Profile section  ends-->
 
     <!--Dialog-->
-    <string name="dialog_make_a_phone_call">Place a phone call to %1$s?</string>
+    <string name="phonecall">Phone call</string>
+    <string name="dialog_make_a_phone_call">Put a call through to %1$s on %2$s to make job request?</string>
     <string name="call">CALL</string>
     <string name="cancel">CANCEL</string>
     <string name="title_activity_job_view">JobViewActivity</string>

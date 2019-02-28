@@ -20,9 +20,9 @@ public class ProfileTabFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new JobPostFragment();
-            case 1:
                 return new ProfileDetailsFragment();
+            case 1:
+                return new JobPostFragment();
             default:
                 return null;
         }
@@ -38,9 +38,9 @@ public class ProfileTabFragmentPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-                return mContext.getString(R.string.job_post_tab_title);
-            case 1:
                 return  mContext.getString(R.string.details_tab_title);
+            case 1:
+                return mContext.getString(R.string.job_post_tab_title);
             default:
                 return null;
         }

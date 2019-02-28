@@ -22,8 +22,6 @@ public class MenuVeiwHolder extends RecyclerView.ViewHolder implements View.OnCl
     public TextView jobOwnerNameTextView;
     public CircleImageView jobOwnerImageView;
     public TextView moneyTextView;
-    public View messageView;
-    public View callView;
     public View detailsView;
 
 
@@ -42,9 +40,7 @@ public class MenuVeiwHolder extends RecyclerView.ViewHolder implements View.OnCl
         menuJobRatingTextView = itemView.findViewById(R.id.job_rating_textView);
         menuStar = itemView.findViewById(R.id.menu_star);
         jobOwnerNameTextView = itemView.findViewById(R.id.job_owner_name_textView);;
-        jobOwnerImageView = itemView.findViewById(R.id.menu_account_image);
-        messageView = itemView.findViewById(R.id.message_layout);
-        callView = itemView.findViewById(R.id.call_layout);
+        jobOwnerImageView = itemView.findViewById(R.id.user_image_view);
         moneyTextView =  itemView.findViewById(R.id.menu_money_value);
         detailsView = itemView.findViewById(R.id.job_details_layout);
 

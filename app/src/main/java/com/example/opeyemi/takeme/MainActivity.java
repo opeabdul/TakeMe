@@ -51,7 +51,6 @@ public class MainActivity extends BaseActivity {
     private String userName; //to hold userName of each clicked jobItem
     private String jobId; //to hold the jobId of the partcular job menu clicked;
 
-
     public RecyclerView menuRecyclerView;
     public RecyclerView.LayoutManager layoutManager;
 
@@ -114,18 +113,6 @@ public class MainActivity extends BaseActivity {
                         holder.jobOwnerNameTextView.setText(user.getName());
                         /*TODO get user image*/
 
-                        //set onclick listener on the call view using the details of the
-                        //user returned
-                        holder.callView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                userPhoneNumber = user.getPhoneNumber();
-                                userName = user.getName();
-                                if (requestCallPermission()) {
-                                    showCallAlertDialog(userName, userPhoneNumber);
-                                }
-                            }
-                        });
 
                         //set the onclick Listener for the details to switch to job details view
                         //with the information of the item clicked
@@ -142,15 +129,6 @@ public class MainActivity extends BaseActivity {
                         });
 
 
-                        //set the onclick listener for the message view to switch to chat View
-                        holder.messageView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                Intent intent = new Intent(MainActivity.this, FindUserActivity.class);
-                                Common.createNewChat(user.getPhoneNumber());
-                                startActivity(intent);
-                            }
-                        });
 
 
 
@@ -179,28 +157,10 @@ public class MainActivity extends BaseActivity {
         menuRecyclerView.setAdapter(mCategoryAdapter);
     }
 
-    private Intent putExtrasIntoIntent(Intent intent, User user, Job model) {
-        intent.putExtra("jobOwnerName", user.getName())
-                .putExtra("jobOwnerPhone", user.getPhoneNumber())
-                //.putExtra("jobPostedDay",model.getDay())
-                //.putExtra("jobPostedMonth", model.getMonth())
-                .putExtra("jobImage",model.getImage())
-                .putExtra("jobDescription", model.getDescription())
-                .putExtra("jobLocationAddress", model.getLocation().getAddress())
-                .putExtra("jobLocationCity", model.getLocation().getCity())
-                .putExtra("jobLocationState", model.getLocation().getState())
-                .putExtra("jobLocationArea", model.getLocation().getArea())
-                .putExtra("jobPrice", model.getPrice())
-                .putExtra("jobName", model.getTitle());
-
-
-        return intent;
-    }
-
     public void showCallAlertDialog(String userName, final String userPhoneNumber) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
         alertDialogBuilder.setTitle(userName)
-                .setMessage(getString(R.string.dialog_make_a_phone_call,userPhoneNumber) )
+                .setMessage(getString(R.string.dialog_make_a_phone_call,userName, userPhoneNumber) )
                 .setPositiveButton(R.string.call, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -330,6 +290,9 @@ public class MainActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         mCategoryAdapter.startListening();
+        if(Common.currentUser == null){
+            startActivity(new Intent(MainActivity.this, SignInActivity.class));
+        }
     }
 
 
