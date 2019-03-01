@@ -1,14 +1,19 @@
 package com.example.opeyemi.takeme;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +49,8 @@ public class ProfileActivity extends BaseActivity implements JobPostFragment.OnL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        changeStatusBarColor();
+
         initializeViews();
 
         if(getIntent() != null){
@@ -53,7 +60,16 @@ public class ProfileActivity extends BaseActivity implements JobPostFragment.OnL
         }
 
         initializeViewsDetailsForUser(currentUserID);
+    }
 
+
+    private void changeStatusBarColor(){
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
+        }
     }
 
     private void initializeViews() {

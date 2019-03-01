@@ -65,7 +65,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:focusedByDefault="false"/>
+        android:focusedByDefault="false"
+        android:enabled="false"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -102,14 +103,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp">
-        <RadioButton
-            android:layout_width="wrap_content"
+
+        <RadioGroup
+            android:id="@+id/gender_radioGroup"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Male"/>
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Female"/>
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/male_radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:layout_marginRight="10dp"
+                android:text="@string/male"/>
+
+            <RadioButton
+                android:id="@+id/female_radioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/female"/>
+
+        </RadioGroup>
     </LinearLayout>
 
 </LinearLayout>

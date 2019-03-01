@@ -14,7 +14,10 @@
     <string name="job_location_details">%1$s, %2$s.</string>
     <string name="need">needs</string>
     <string name="search">search</string>
+    <string name="search_label">Job Search</string>
     <string name="at">at</string>
+    <string name="search_result">Search result for %1$s</string>
+    <string name="no_search_result">No result found for %1$s</string>
     <!--Main menu ends here-->
 
 
@@ -75,6 +78,8 @@
 
     <!--Profile Edit Start-->
     <string name="edit_profile_label">Edit Profile</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
     <!--Profile edit  ends-->
 
 

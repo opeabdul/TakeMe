@@ -11,18 +11,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@id/navigation"
         android:layout_alignParentTop="true"
         android:orientation="vertical"
-        android:weightSum="5"
-        android:layout_above="@id/navigation">
+        android:weightSum="5">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:background="@color/colorPrimaryDark"
-            android:orientation="horizontal">
+            android:background="@color/colorPrimary"
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -51,81 +51,102 @@
 
             </LinearLayout>
 
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/profileJobsNumbers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12"
+                            android:textColor="@android:color/black"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/profile_job_post_textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="Job Ads"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:id="@+id/profileActiveJobsNumbers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="4"
+                            android:textColor="@android:color/black"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/profileJobActiveTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="Active Ads"
+                            android:textAlignment="center"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:gravity="center"
+                    android:layout_marginTop="8dp">
 
                     <TextView
-                        android:id="@+id/profileFollowerTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="followers"
-                        android:textSize="12sp" />
+                        android:text="3.5"
+                        android:padding="5dp"
+                        android:textColor="@android:color/black"
+                        android:textSize="17sp"
+                        android:textStyle="bold"/>
 
-                    <TextView
-                        android:id="@+id/profile_job_post_textView"
+                    <RatingBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="Job Ads"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/profileJobActiveTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="Active Ads"
-                        android:textAlignment="center"
-                        android:textSize="12sp" />
+                        android:rating="3.5"
+                        android:clickable="false"
+                        android:stepSize="0.1"
+                        android:isIndicator="true"
+                        style="@style/Widget.AppCompat.RatingBar.Indicator"/>
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
-
-                    <TextView
-                        android:id="@+id/profileFollowersNumbers"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="0"
-                        android:textColor="@android:color/black"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/profileJobsNumbers"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="12"
-                        android:textColor="@android:color/black"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/profileActiveJobsNumbers"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="8dp"
-                        android:text="4"
-                        android:textColor="@android:color/black"
-                        android:textSize="12sp" />
-
-                </LinearLayout>
 
             </LinearLayout>
 
@@ -136,10 +157,10 @@
             android:id="@+id/profile_tab"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorPrimary"
+            app:tabIndicatorColor="@android:color/white"
             app:tabMode="fixed"
             app:tabSelectedTextColor="@android:color/white"
-            app:tabIndicatorColor="@android:color/white"
             app:tabTextColor="#cccccc">
 
         </android.support.design.widget.TabLayout>

@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -24,6 +25,7 @@ import com.example.opeyemi.takeme.common.Common;
 import com.example.opeyemi.takeme.model.Job;
 import com.example.opeyemi.takeme.model.User;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -45,6 +47,9 @@ public class JobDetailsActivity extends AppCompatActivity {
     private Job jobObject;
     private User userObject;
 
+    private String userPhoneNumber; //to hold phoneNumber of clicked jobItem
+    private String userName; //to hold userName of each clicked jobItem
+
     private final String  TAG = "JOBDETAILSACTIVITY";
 
     FirebaseDatabase database;
@@ -52,7 +57,9 @@ public class JobDetailsActivity extends AppCompatActivity {
 
     FloatingActionButton message_fab;
     FloatingActionButton call_fab;
+    FloatingActionsMenu fam;
 
+    Boolean ownerView = false; //a boolena value to check the current job viewer
 
     CollapsingToolbarLayout collapsingToolbarLayout;
 
@@ -99,6 +106,8 @@ public class JobDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null){
 
+            ownerView = intent.getBooleanExtra("ownerClick",false);
+
             userObject = (User) intent.getSerializableExtra("userObject");
             jobObject = (Job)  intent.getSerializableExtra("jobObject");
             jobDescription.setText(jobObject.getDescription());
@@ -121,7 +130,7 @@ public class JobDetailsActivity extends AppCompatActivity {
             }
 
             if (jobObject.getTimestamp() != null){
-                dateTextView.setText(DateFormat.format("dd-mm-yyyy",new Date(Long.valueOf(jobObject.getTimestamp()))));
+                dateTextView.setText(DateFormat.format("dd MMM, yyyy.",new Date(Long.valueOf(jobObject.getTimestamp()))));
             }
 
         }
@@ -130,9 +139,6 @@ public class JobDetailsActivity extends AppCompatActivity {
         message_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
                 Intent intent = new Intent(JobDetailsActivity.this, FindUserActivity.class);
                 Common.createNewChat(userObject.getPhoneNumber());
                 startActivity(intent);
@@ -143,15 +149,18 @@ public class JobDetailsActivity extends AppCompatActivity {
         call_fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                String userPhoneNumber = userObject.getPhoneNumber();
-                String userName = userObject.getName();
+                 userPhoneNumber = userObject.getPhoneNumber();
+                 userName = userObject.getName();
                 if (requestCallPermission()) {
                     showCallAlertDialog(userName, userPhoneNumber);
                 }
             }
         });
+
+        fam = findViewById(R.id.fam);
+        if(ownerView){
+            fam.setVisibility(View.INVISIBLE);
+        }
     }
 
     @TargetApi(21)
@@ -176,6 +185,20 @@ public class JobDetailsActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case Common.MY_PERMISSIONS_REQUEST_CALL_PHONE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    showCallAlertDialog(userPhoneNumber, userName);
+                }
+            }
+
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
 
