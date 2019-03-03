@@ -2,18 +2,14 @@ package com.example.opeyemi.takeme;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
@@ -31,7 +27,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
-import java.util.Objects;
 
 public class JobDetailsActivity extends AppCompatActivity {
 
@@ -152,7 +147,7 @@ public class JobDetailsActivity extends AppCompatActivity {
                  userPhoneNumber = userObject.getPhoneNumber();
                  userName = userObject.getName();
                 if (requestCallPermission()) {
-                    showCallAlertDialog(userName, userPhoneNumber);
+                    Common.call(JobDetailsActivity.this, userName, userPhoneNumber);
                 }
             }
         });
@@ -192,7 +187,8 @@ public class JobDetailsActivity extends AppCompatActivity {
         switch (requestCode) {
             case Common.MY_PERMISSIONS_REQUEST_CALL_PHONE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    showCallAlertDialog(userPhoneNumber, userName);
+                    //new PhoneCall(JobDetailsActivity.this, userName, userPhoneNumber);
+                    Common.call(JobDetailsActivity.this,userName, userPhoneNumber);
                 }
             }
 
@@ -201,36 +197,6 @@ public class JobDetailsActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-
-    public void showCallAlertDialog(String userName, final String userPhoneNumber) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(JobDetailsActivity.this);
-        alertDialogBuilder.setTitle(R.string.phonecall)
-                .setMessage(getString(R.string.dialog_make_a_phone_call,userName, userPhoneNumber) )
-                .setPositiveButton(R.string.call, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        makePhoneCall(userPhoneNumber);
-                    }
-                })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
-
-    private void makePhoneCall(String phoneNumber) {
-        Intent intent = new Intent(Intent.ACTION_CALL);
-        intent.setData(Uri.parse("tel:" + phoneNumber));
-        try {
-            startActivity(intent);
-        } catch (SecurityException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     protected void onStart() {

@@ -1,5 +1,6 @@
 package com.example.opeyemi.takeme;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,12 +10,16 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.opeyemi.takeme.ProfileFragments.JobPostFragment;
@@ -31,6 +36,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.onesignal.OneSignal;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+
 public class ProfileActivity extends BaseActivity implements JobPostFragment.OnListFragmentInteractionListener {
 
     private ViewPager mProfileViewpager;
@@ -40,6 +47,11 @@ public class ProfileActivity extends BaseActivity implements JobPostFragment.OnL
     private ImageView mProfileImageOfUserImageView;
     private TextView mTotalJob;
     private TextView mActiveJobs;
+    private TextView mRatingValueTextView;
+    RatingBar rb;
+    LinearLayout ratingLayout;
+
+    final private int RATING_REQUEST_CODE = 5;
 
     DatabaseReference userRef = FirebaseDatabase.getInstance().getReference().child("user");
 
@@ -53,22 +65,52 @@ public class ProfileActivity extends BaseActivity implements JobPostFragment.OnL
 
         initializeViews();
 
-        if(getIntent() != null){
-            currentUserID = Common.currentUser.getPhoneNumber();
-        }else {
+        if (getIntent().getStringExtra("profileId") != null) {
+            currentUserID = getIntent().getStringExtra("profileId");
+        } else {
             currentUserID = Common.currentUser.getPhoneNumber();
         }
 
+
+        setUpRatingBar();
+
         initializeViewsDetailsForUser(currentUserID);
+
+
     }
 
+    private void setUpRatingBar() {
+        ratingLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder alertDailogBuilder = new AlertDialog.Builder(ProfileActivity.this)
+                        .setTitle(R.string.rate_user)
+                        .setMessage(R.string.rate_user_message)
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent rateIntent = new Intent(ProfileActivity.this, RatingActivity.class);
+                                startActivityForResult(rateIntent, RATING_REQUEST_CODE);
+                            }
+                        })
+                        .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        });
 
-    private void changeStatusBarColor(){
+                alertDailogBuilder.create().show();
+            }
+        });
+    }
+
+    private void changeStatusBarColor() {
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(ContextCompat.getColor(this,R.color.colorPrimary));
+            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimary));
         }
     }
 
@@ -84,6 +126,9 @@ public class ProfileActivity extends BaseActivity implements JobPostFragment.OnL
         mProfileImageOfUserImageView = findViewById(R.id.profile_imageView);
         mActiveJobs = findViewById(R.id.profileJobActiveTextView);
         mTotalJob = findViewById(R.id.profileJobsNumbers);
+        mRatingValueTextView = findViewById(R.id.rating_value);
+        rb = findViewById(R.id.user_ratingBar);
+        ratingLayout = findViewById(R.id.rating_layout);
     }
 
     private void initializeViewsDetailsForUser(String currentUserPhone) {
@@ -92,25 +137,23 @@ public class ProfileActivity extends BaseActivity implements JobPostFragment.OnL
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                DataSnapshot snap = dataSnapshot;
+                if (dataSnapshot.exists()) {
 
-                if(dataSnapshot.exists()){
-
-                    if(dataSnapshot.child("name").getValue() != null){
+                    if (dataSnapshot.child("name").getValue() != null) {
                         mProfileNameOfUserTextView.setText(dataSnapshot.child("name").getValue().toString());
                     }
 
-                    if(dataSnapshot.child("image").getValue() != null){
+                    if (dataSnapshot.child("image").getValue() != null) {
                         Picasso.with(mProfileImageOfUserImageView.getContext())
                                 .load(dataSnapshot.child("image").getValue().toString())
                                 .into(mProfileImageOfUserImageView);
                     }
 
-                    if(dataSnapshot.child("totalJobs").getValue() != null){
+                    if (dataSnapshot.child("totalJobs").getValue() != null) {
                         mTotalJob.setText(dataSnapshot.child("totalJobs").getValue().toString());
                     }
 
-                    if(dataSnapshot.child("activeJobs").getValue() != null){
+                    if (dataSnapshot.child("activeJobs").getValue() != null) {
                         mActiveJobs.setText(dataSnapshot.child("activeJobs").getValue().toString());
                     }
 
@@ -125,11 +168,11 @@ public class ProfileActivity extends BaseActivity implements JobPostFragment.OnL
     }
 
     //overriding BaseActivity method
-    public int getContentViewId(){
+    public int getContentViewId() {
         return R.layout.activity_profile;
     }
 
-    public int getNavigationMenuItemId(){
+    public int getNavigationMenuItemId() {
         return R.id.navigation_profile;
     }
 
@@ -141,7 +184,7 @@ public class ProfileActivity extends BaseActivity implements JobPostFragment.OnL
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.profile_menu,menu);
+        inflater.inflate(R.menu.profile_menu, menu);
         return true;
     }
 
@@ -149,12 +192,41 @@ public class ProfileActivity extends BaseActivity implements JobPostFragment.OnL
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 
-        switch (itemId){
+        switch (itemId) {
             case R.id.profile_logout_menu:
                 OneSignal.setSubscription(false);
                 Common.logout(ProfileActivity.this);
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == RATING_REQUEST_CODE) {
+                String ratingValueReturned = data.getStringExtra("rate");
+
+                String ratingCommentReturned = data.getStringExtra("comment");
+
+                userRef.child(currentUserID).child("ratings");
+
+                HashMap<String, Object> newRating = new HashMap<>();
+                newRating.put("raterName", Common.currentUser.getName());
+                newRating.put("raterPhone", Common.currentUser.getPhoneNumber());
+                newRating.put("ratingValue", ratingValueReturned);
+                newRating.put("raterComment", ratingCommentReturned);
+
+                mRatingValueTextView.setText(ratingValueReturned);
+                userRef.child("ratings").push().updateChildren(newRating);
+
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public String getProfileId(){
+        return currentUserID;
     }
 }

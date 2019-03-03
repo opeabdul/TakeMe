@@ -75,26 +75,29 @@ public class SplashScreen extends AppCompatActivity {
             public void run() {
                 sloganTextView.clearAnimation();
                 sloganTextView.startAnimation(anim3);
+
             }
         },400);
-
-
 
         splashThread = new Thread(){
             @Override
             public void run() {
                 try{
+
                     int waited = 0;
                     //splash screen pauseTime
                     while (waited < 6000){
                         sleep(100);
                         waited += 100;
+
                     }
+
                     Intent intent = new Intent(SplashScreen.this, SignInActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                     SplashScreen.this.finish();
-                }catch (InterruptedException e){
+
+                } catch (InterruptedException e){
                     Log.i("SplashScreenActivity", e.getMessage());
                 }finally {
                     SplashScreen.this.finish();

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.opeyemi.takeme.ProfileActivity;
 import com.example.opeyemi.takeme.R;
 import com.example.opeyemi.takeme.common.Common;
 import com.example.opeyemi.takeme.model.Job;
@@ -39,6 +40,8 @@ public class JobPostFragment extends Fragment {
     private ArrayList<Job> mJobList = new ArrayList<>();
 
     DatabaseReference jobRef = FirebaseDatabase.getInstance().getReference("job");
+
+    private String profileId;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -50,7 +53,8 @@ public class JobPostFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Query query = jobRef.orderByChild("userID").equalTo(Common.currentUser.getPhoneNumber());
+        profileId = ((ProfileActivity) getActivity()).getProfileId();
+        Query query = jobRef.orderByChild("userID").equalTo(profileId);
 
         query.addValueEventListener(new ValueEventListener() {
             @Override

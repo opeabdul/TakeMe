@@ -79,6 +79,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         if (dataSnapshot.child(mEditPhone.getText().toString()).exists())
                         {
+
                             mProgressDialog.dismiss();
                             Toast.makeText(SignUpActivity.this,
                                     "Phone number already registered",Toast.LENGTH_SHORT).show();
@@ -90,6 +91,7 @@ public class SignUpActivity extends AppCompatActivity {
                             User user = new User(mEditName.getText().toString(),
                                     mEditPassword.getText().toString(), mEditPhone.getText().toString(),null);
                             table_user.child(mEditPhone.getText().toString()).setValue(user);
+                            Common.currentUser = user;
                             Toast.makeText(SignUpActivity.this,
                                     "Sign up successful",Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(SignUpActivity.this, MainActivity.class));

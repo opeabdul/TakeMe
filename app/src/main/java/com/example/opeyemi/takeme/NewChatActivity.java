@@ -1,9 +1,13 @@
 package com.example.opeyemi.takeme;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -52,7 +56,9 @@ public class NewChatActivity extends AppCompatActivity {
     private EditText messageEditText;
 
 
+
     ChatObject mChatObject;
+    User mUserObject;
 
     DatabaseReference mChatMessagesDb;
 
@@ -60,12 +66,17 @@ public class NewChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_chat);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-
 
         if(getIntent() != null){
             mChatObject = (ChatObject) getIntent().getSerializableExtra("chatObject");
+            mUserObject = (User) getIntent().getSerializableExtra("userObject");
+        }else {
+            finish();
         }
+
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+
 
         mChatMessagesDb = FirebaseDatabase.getInstance().getReference().child("chat").child(mChatObject.getChatId()).child("messages");
 
@@ -289,6 +300,52 @@ public class NewChatActivity extends AppCompatActivity {
 
     }
 
+    private void makePhoneCall(){
+        if (requestCallPermission()){
+            Common.call(NewChatActivity.this,mUserObject.getName(), mUserObject.getPhoneNumber() );
+        }
+    }
+
+    private void viewUserProfile(){
+        Intent intent = new Intent(NewChatActivity.this,ProfileActivity.class);
+        intent.putExtra("profileId", mUserObject.getPhoneNumber());
+        startActivity(intent);
+    }
+
+    public boolean requestCallPermission() {
+        if (ContextCompat.checkSelfPermission(getBaseContext(),
+                Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(NewChatActivity.this,
+                    new String[]{Manifest.permission.CALL_PHONE},
+                    Common.MY_PERMISSIONS_REQUEST_CALL_PHONE);
+
+            // MY_PERMISSIONS_REQUEST_CALL_PHONE is an
+            // app-defined int constant. The callback method gets the
+            // result of the request.
+        } else {
+            //You already have permission
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case Common.MY_PERMISSIONS_REQUEST_CALL_PHONE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //new PhoneCall(JobDetailsActivity.this, userName, userPhoneNumber);
+                    Common.call(NewChatActivity.this,mUserObject.getName(), mUserObject.getPhoneNumber());
+                }
+            }
+
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
         startActivity(new Intent(getApplicationContext(), FindUserActivity.class)
@@ -306,6 +363,15 @@ public class NewChatActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        switch (itemId){
+            case R.id.action_chat_call:
+                makePhoneCall();
+                return true;
+            case R.id.action_chat_view_profile:
+                viewUserProfile();
+                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

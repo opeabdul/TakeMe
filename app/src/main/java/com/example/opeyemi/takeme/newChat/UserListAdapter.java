@@ -67,6 +67,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
                 //chat with
                 Intent intent = new Intent(view.getContext(), NewChatActivity.class);
                 intent.putExtra("chatObject", mChatList.get(position));
+                intent.putExtra("userObject", mUserList.get(position));
                 view.getContext().startActivity(intent);
             }
         });

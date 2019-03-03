@@ -57,6 +57,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="fresh_config">Fresh Config</string>
     <string name="cause_crash">Cause Crash</string>
+    <string name="view_profile">View Profile</string>
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -69,11 +70,14 @@
     <string name="job_post_tab_title">Job Posts</string>
     <string name="details_tab_title">Details</string>
     <string name="profile_update_info">
-        Setting your profile correctly improves your chance of being trusted by other users and
-        encourage others in taking up yours job and also giving you picking you for their jobs.
+        Setting your profile correctly improves your chance of being trusted to work on a job by
+        other users and also encourages others to take up your jobs post more seriously.
     </string>
     <string name="logout">Logout</string>
-
+    <string name="rate">Rate</string>
+    <string name="rate_user">Rate User</string>
+    <string name="rate_user_message">Do you want to rate this user</string>
+    <string name="leave_a_comment">Leave a comment for the user</string>
     <!--Profile section  ends-->
 
     <!--Profile Edit Start-->
@@ -109,8 +113,8 @@
     <string name="create_job">create job</string>
     <string name="job_post">Job Post</string>
     <string name="allow_call">Job applicants can place a phone call.</string>
-    <string name="yes">yes</string>
-    <string name="no">no</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="make_post_without_image">Do you want to make a post without job image?</string>
     <string name="upload_image">Upload Image</string>
     <!--Job New Post Strings end here-->
